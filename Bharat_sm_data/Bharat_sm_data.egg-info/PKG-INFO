@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: Bharat-sm-data
+Version: 1.0.0
+Summary: Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity (both Technical and Fundamentals), Commodities, Currencies from NSE, MoneyControl and Tickertape websites
+Home-page: UNKNOWN
+Author: Sampad Hegde
+Author-email: me@sampadhegde.in
+License: apache-2
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: Apache-2
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+License-File: LICENSE
+
+
+# Bharat (Indian) all kind of Stock Market Data Fetch library under one package
+
