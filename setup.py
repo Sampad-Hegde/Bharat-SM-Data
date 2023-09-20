@@ -20,20 +20,20 @@ setup(
     url="",
     author="Sampad Hegde",
     author_email="me@sampadhegde.in",
-    license="apache-2",
+    license="Apache License 2.0",
     classifiers=[
-        "License :: OSI Approved :: Apache2",
+        "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python :: 3.8",
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'requests >= 2.31.0',
-        'pandas >= 2.0.3',
-        'pydash >= 7.0.6',
-        'beautifulsoup4 >= 4.12.2',
-        'numpy >= 1.25.2',
-        'html5lib >= 1.0',
-        'lxml >= 4.9.0'
+        'requests>=2.31.0',
+        'pandas>=2.0.3',
+        'pydash>=7.0.6',
+        'beautifulsoup4>=4.12.2',
+        'numpy>=1.25.2',
+        'html5lib>=1.1',
+        'lxml>=4.9.3'
     ],
     extras_require={
         "dev": ["twine>=4.0.2"],

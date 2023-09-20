@@ -5,9 +5,9 @@ Summary: Bharat (India) Stock Market Data Fetch Library for all kind of data, De
 Home-page: UNKNOWN
 Author: Sampad Hegde
 Author-email: me@sampadhegde.in
-License: apache-2
+License: Apache License 2.0
 Platform: UNKNOWN
-Classifier: License :: OSI Approved :: Apache2
+Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.8
