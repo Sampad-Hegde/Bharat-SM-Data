@@ -4,3 +4,5 @@ pydash>=7.0.6
 beautifulsoup4>=4.12.2
 numpy>=1.25.2
 setuptools>=58.1.0
+html5lib>=1.0
+lxml>=4.9.0

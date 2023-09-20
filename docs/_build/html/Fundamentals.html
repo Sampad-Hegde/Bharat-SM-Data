@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundamentals package &mdash; Bharat (INDIA) Stock market Data Collection Library 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Derivatives package" href="Derivatives.html" />
+    <link rel="prev" title="Technical package" href="Technical.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Bharat (INDIA) Stock market Data Collection Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Bharat (India) Stock Market Data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Technical.html">Technical package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fundamentals package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Fundamentals.MoneyControl">Fundamentals.MoneyControl module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Fundamentals.MoneyControl.MoneyControl"><code class="docutils literal notranslate"><span class="pre">MoneyControl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-Fundamentals.TickerTape">Fundamentals.TickerTape module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Fundamentals.TickerTape.Tickertape"><code class="docutils literal notranslate"><span class="pre">Tickertape</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Derivatives.html">Derivatives package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Base.html">Base package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Bharat (INDIA) Stock market Data Collection Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Bharat (India) Stock Market Data</a></li>
+      <li class="breadcrumb-item active">Fundamentals package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Fundamentals.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fundamentals-package">
+<h1>Fundamentals package<a class="headerlink" href="#fundamentals-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-Fundamentals.MoneyControl">
+<span id="fundamentals-moneycontrol-module"></span><h2>Fundamentals.MoneyControl module<a class="headerlink" href="#module-Fundamentals.MoneyControl" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Fundamentals.MoneyControl.</span></span><span class="sig-name descname"><span class="pre">MoneyControl</span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomSession</span></code></p>
+<blockquote>
+<div><p>A class to control money-related operations.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>No Attributes</p>
+</dd>
+<dt>Methods:</dt><dd><p>__init__(): Initializes the MoneyControl class.
+get_ticker(search_text: str) -&gt; tuple: Retrieve the ticker for a given search text.</p>
+</dd>
+</dl>
+<p>_get_all_extracted_urls(main_url: str): Retrieve all extracted URLs from the main URL.
+_common_complete_sheet_data_extractor(company_mc_url, statement_type, report_data, pages): Extracts
+data from the given URL and returns a DataFrame.
+get_india_vix(interval: str) -&gt; pd.DataFrame: Retrieves India Vix data for a given interval.
+get_overview_mini_statement(ticker: str, statement_type: str = ‘consolidated’,
+statement_frequency: int = 12): Retrieve the overview mini statement for a given ticker.
+get_income_mini_statement(ticker: str, statement_type: str = ‘consolidated’, statement_frequency: int = 12):
+Retrieves the income mini statement for a given ticker.
+get_balance_sheet_mini_statement(ticker: str,
+statement_type: str = ‘consolidated’): Retrieves the balance sheet mini statement for a given ticker.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_balance_sheet_mini_statement">
+<span class="sig-name descname"><span class="pre">get_balance_sheet_mini_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'consolidated'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_balance_sheet_mini_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_balance_sheet_mini_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give highly extracted and most commonly used data from quarterly/annual reports
+this is good for quick comparisons, as it suggests it will give mini statements
+which means it will give data only for few time periods (quarterly/annual/6months/9months)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>ticker</strong> – The moneycontrol ticker symbol of the company.</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘consolidated’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The company balance sheet data in a DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_cash_flow_mini_statement">
+<span class="sig-name descname"><span class="pre">get_cash_flow_mini_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'consolidated'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_cash_flow_mini_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_cash_flow_mini_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give highly extracted and most commonly used data from quarterly/annual reports
+this is good for quick comparisons, as it suggests it will give mini statements
+which means it will give data only for few time periods (quarterly/annual/6months/9months)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>ticker</strong> – The moneycontrol ticker symbol of the company.</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘consolidated’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The company’s cash flow statements data in a DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_balance_sheet">
+<span class="sig-name descname"><span class="pre">get_complete_balance_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_balance_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_balance_sheet" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_years: (Optional) Number of years for which balance sheet data is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete balance sheet data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_capital_structure_statement">
+<span class="sig-name descname"><span class="pre">get_complete_capital_structure_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_capital_structure_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_capital_structure_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Complete capital Structure data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_cashflow_statement">
+<span class="sig-name descname"><span class="pre">get_complete_cashflow_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_cashflow_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_cashflow_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_years: (Optional) The Number of annual reports is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete cash-flow statements data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_half_yearly_results">
+<span class="sig-name descname"><span class="pre">get_complete_half_yearly_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_half_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_half_yearly_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_half_yearly_results" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_half_years: (Optional) Number of 6months data is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete half-yearly (50th percentile of the year) results data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_nine_months_results">
+<span class="sig-name descname"><span class="pre">get_complete_nine_months_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nine_months</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_nine_months_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_nine_months_results" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_nine_months: (Optional) Number of 9months data is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete nine-months (75th percentile of the year) data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_profit_loss">
+<span class="sig-name descname"><span class="pre">get_complete_profit_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_profit_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_profit_loss" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_years: (Optional) Number of years for which a P&amp;L statement is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete P&amp;L statement data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_quarterly_results">
+<span class="sig-name descname"><span class="pre">get_complete_quarterly_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_quarters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_quarterly_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_quarterly_results" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_quarters: (Optional) Number of quarters for which quarterly results are required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete quarterly (25th percentile of the year) results data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_ratios_data">
+<span class="sig-name descname"><span class="pre">get_complete_ratios_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_ratios_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_ratios_data" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_years: (Optional) The number of annual reports is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete key ratios data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_complete_yearly_results">
+<span class="sig-name descname"><span class="pre">get_complete_yearly_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">company_mc_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'standalone'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_years</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_complete_yearly_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_complete_yearly_results" title="Link to this definition"></a></dt>
+<dd><p>This will give complete data of quarterly/annual reports.
+This is a complete report that can be used any fundamental deep analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>company_mc_url</strong> – Company’s main MoneyControl url (this can be taken from get_ticker() function)</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘standalone’.
+:param num_years: (Optional) The Number of annual reports is required (min 5,
+and it should be multiple of 5)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Complete annual (100th percentile of the year) report data in the DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_income_mini_statement">
+<span class="sig-name descname"><span class="pre">get_income_mini_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'consolidated'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_income_mini_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_income_mini_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give highly extracted and most commonly used data from quarterly/annual reports
+this is good for quick comparisons, as it suggests it will give mini statements
+which means it will give data only for few time periods (quarterly/annual/6months/9months)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>ticker</strong> – The moneycontrol ticker symbol of the company.</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘consolidated’.
+:param statement_frequency: (Optional) The frequency of the statement. Defaults to 12.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The company income data in a DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_india_vix">
+<span class="sig-name descname"><span class="pre">get_india_vix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_india_vix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_india_vix" title="Link to this definition"></a></dt>
+<dd><p>This will fetch the OHLCV datapoints of the INDIA Volatility Index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>interval</strong> – Time interval for the data (‘1d’ for daily qnd ‘1’ for 1min)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing the India VIX data for last 2months or ~1780 OHLCV datapoints</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_overview_mini_statement">
+<span class="sig-name descname"><span class="pre">get_overview_mini_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'consolidated'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_overview_mini_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_overview_mini_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give highly extracted and most commonly used data from quarterly/annual reports
+this is good for quick comparisons, as it suggests it will give mini statements
+which means it will give data only for few time periods (quarterly/annual/6months/9months)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>ticker</strong> – The moneycontrol ticker symbol of the company.</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘consolidated’.
+:param statement_frequency: (Optional) The frequency of the statement. Defaults to 12.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The processed data in a DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_ratios_mini_statement">
+<span class="sig-name descname"><span class="pre">get_ratios_mini_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statement_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'consolidated'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_ratios_mini_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_ratios_mini_statement" title="Link to this definition"></a></dt>
+<dd><p>This will give highly extracted and most commonly used data from quarterly/annual reports
+this is good for quick comparisons, as it suggests it will give mini statements
+which means it will give data only for few time periods (quarterly/annual/6months/9months)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>ticker</strong> – The moneycontrol ticker symbol of the company.</p></li>
+<li><p><strong>statement_type</strong> – (Optional) The type of statement to retrieve (consolidated / standalone).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Defaults to ‘consolidated’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The company’s key performance ratios in DataFrame format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.MoneyControl.MoneyControl.get_ticker">
+<span class="sig-name descname"><span class="pre">get_ticker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/Fundamentals/MoneyControl.html#MoneyControl.get_ticker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.MoneyControl.MoneyControl.get_ticker" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Get ticker information for a given search text.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class.</p></li>
+<li><p><strong>search_text</strong> – The text to search for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the stock ID and the corresponding object (raw data).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Fundamentals.TickerTape">
+<span id="fundamentals-tickertape-module"></span><h2>Fundamentals.TickerTape module<a class="headerlink" href="#module-Fundamentals.TickerTape" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Fundamentals.TickerTape.</span></span><span class="sig-name descname"><span class="pre">Tickertape</span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomSession</span></code></p>
+<p>A class to interact with the Tickertape API.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>valid_horizons : list of valid time horizons for financial data
+valid_search_places: list of valid search places for ticker search</p>
+</dd>
+<dt>Methods:</dt><dd><p>__init__ : Initialize the Tickertape class
+get_ticker : Get the ticker symbol and raw response for a given hint and search place
+_get_url_of_the_ticker : Get the URL of the ticker
+get_all_nifty_50_ticker : Get a list of tickers for the Nifty 50 index
+get_all_constituents_of_index : Get a list of tickers for a given index
+get_income_data : Get income data for a given ticker and time horizon
+get_balance_sheet_data : Get balance sheet data for a given ticker
+get_cash_flow_data : Get cash flow data for a given ticker
+peers_comparison : Get peer comparison data for a given ticker and comparison type
+get_score_card : Get the scorecard for a given ticker
+get_share_holding_pattern : Get the share holding pattern for a given ticker
+get_mutual_fund_holdings : Get the mutual fund holdings for a given ticker</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_all_constituents_of_index">
+<span class="sig-name descname"><span class="pre">get_all_constituents_of_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_all_constituents_of_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_all_constituents_of_index" title="Link to this definition"></a></dt>
+<dd><p>This will give all equities that are part of an index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>index</strong> – The index name; for example .NSEI (nifty 50), .NIFTY500 (nifty 500)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tickers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_all_etfs_under_index">
+<span class="sig-name descname"><span class="pre">get_all_etfs_under_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_all_etfs_under_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_all_etfs_under_index" title="Link to this definition"></a></dt>
+<dd><p>Get all ETFs under a specific index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>index</strong> – A valid index traded on Indian Exchange.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the ETF data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_all_nifty_50_ticker">
+<span class="sig-name descname"><span class="pre">get_all_nifty_50_ticker</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_all_nifty_50_ticker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_all_nifty_50_ticker" title="Link to this definition"></a></dt>
+<dd><p>The get_nifty_50_ticker function returns a list of tickers for the Nifty-50 index.
+The function uses the hit_and_get_data function to get a response from
+<a class="reference external" href="https://api.tickertape.in/indices/constituents/.NSEI">https://api.tickertape.in/indices/constituents/.NSEI</a>, which is an API that provides data on
+constituents of various indices in India, including the Nifty 50 index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Represents the instance of the class</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tickers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_balance_sheet_data">
+<span class="sig-name descname"><span class="pre">get_balance_sheet_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_time_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_balance_sheet_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_balance_sheet_data" title="Link to this definition"></a></dt>
+<dd><p>Get balance sheet data for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>ticker</strong> – The ticker symbol of the stock</p></li>
+<li><p><strong>num_time_periods</strong> – The number of time periods to retrieve. Default to 10.</p></li>
+<li><p><strong>growth</strong> – Boolean flag tell the report is normal type or growth type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame containing balance sheet data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_cash_flow_data">
+<span class="sig-name descname"><span class="pre">get_cash_flow_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_time_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">growth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_cash_flow_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_cash_flow_data" title="Link to this definition"></a></dt>
+<dd><p>Get cash flow data for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>ticker</strong> – The ticker symbol of the stock</p></li>
+<li><p><strong>num_time_periods</strong> – The number of time periods to retrieve. Default to 10.</p></li>
+<li><p><strong>growth</strong> – Boolean flag tell the report is normal type or growth type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame containing cash flow data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_dividends_history">
+<span class="sig-name descname"><span class="pre">get_dividends_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stock_slug_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_dividends_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_dividends_history" title="Link to this definition"></a></dt>
+<dd><p>Gets the dividend history for a given stock ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>stock_slug_endpoint</strong> – It’s the part of url expect base url which navigates to the
+stock profile in the website. You can get this from search url raw data.
+For example, if stock url is <cite>https://www.tickertape.in/stocks/hdfc-bank-HDBK</cite>
+then <cite>stocks/hdfc-bank-HDBK</cite> is the slug url.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame contains the dividend history</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_equity_screener_all_filters">
+<span class="sig-name descname"><span class="pre">get_equity_screener_all_filters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_equity_screener_all_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_equity_screener_all_filters" title="Link to this definition"></a></dt>
+<dd><p>The get_equity_screener_all_filters function returns a dictionary of all the filters available for equity screener.
+The key is the display name and value is label name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Represent the instance of the class.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of all the filters that can be used in the equity screener.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_equity_screener_data">
+<span class="sig-name descname"><span class="pre">get_equity_screener_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sortby</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_records</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_equity_screener_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_equity_screener_data" title="Link to this definition"></a></dt>
+<dd><p>!! Carefully call this function because this is a heavy and time-consuming function.
+Save the data once you get the data to save resource and time !!</p>
+<dl class="simple">
+<dt>The get_equity_screener_data function is used to retrieve equity screener data from the</dt><dd><p><a class="reference external" href="https://api.kite.trade/screener/query">https://api.kite.trade/screener/query</a> endpoint of the Kite Connect API.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class</p></li>
+<li><p><strong>filters</strong> – list: Define the columns that you want to be returned in your dataframe you can pass all</p></li>
+</ul>
+</dd>
+</dl>
+<p>filters which are non-premium aka values list of <cite>get_equity_screener_all_filters</cite> function returned
+dictionary.
+:param sortby: str: Sort the dataframe by a specific column if you don’t pass this it will consider the 1st
+value of filters list.
+:param number_of_records: int: Limit the number of records that are returned
+:return: A pandas dataframe with the all data you asked in the <cite>filters</cite> field. You can save this data
+df and use it for your research</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_income_data">
+<span class="sig-name descname"><span class="pre">get_income_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_horizon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'interim'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_time_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'normal'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_income_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_income_data" title="Link to this definition"></a></dt>
+<dd><p>Get income data for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>ticker</strong> – The ticker symbol of the stock</p></li>
+<li><p><strong>time_horizon</strong> – The time horizon of the income data (interim / annual). Defaults to ‘interim’</p></li>
+<li><p><strong>num_time_periods</strong> – The number of time periods to retrieve. Default to 10.</p></li>
+<li><p><strong>view_type</strong> – The view type of the income data (normal / growth). Defaults to ‘normal’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame containing income data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_key_ratios">
+<span class="sig-name descname"><span class="pre">get_key_ratios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stock_slug_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_key_ratios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_key_ratios" title="Link to this definition"></a></dt>
+<dd><p>Get key ratios for a given stock ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>stock_slug_endpoint</strong> – It’s the part of url expect base url which navigates to the
+stock profile in the website. You can get this from search url raw data.
+For example, if stock url is <cite>https://www.tickertape.in/stocks/hdfc-bank-HDBK</cite>
+then <cite>stocks/hdfc-bank-HDBK</cite> is the slug url.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A transposed DataFrame containing the key ratios for the stock.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_mutual_fund_holdings">
+<span class="sig-name descname"><span class="pre">get_mutual_fund_holdings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stock_slug_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_mutual_fund_holdings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_mutual_fund_holdings" title="Link to this definition"></a></dt>
+<dd><p>Get mutual fund holdings for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>stock_slug_endpoint</strong> – It’s the part of url expect base url which navigates to the
+stock profile in the website. You can get this from search url raw data.
+For example, if stock url is <cite>https://www.tickertape.in/stocks/hdfc-bank-HDBK</cite>
+then <cite>stocks/hdfc-bank-HDBK</cite> is the slug url.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame contains the mutual fund holdings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_score_card">
+<span class="sig-name descname"><span class="pre">get_score_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_score_card"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_score_card" title="Link to this definition"></a></dt>
+<dd><p>Get the scorecard for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>ticker</strong> – The ticker symbol of the stock</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame contains all key flags like valuation, technical, growth red flags, etc.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_share_holding_pattern">
+<span class="sig-name descname"><span class="pre">get_share_holding_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stock_slug_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_share_holding_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_share_holding_pattern" title="Link to this definition"></a></dt>
+<dd><p>Get the share holding pattern for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>stock_slug_endpoint</strong> – It’s the part of url expect base url which navigates to the
+stock profile in the website. You can get this from search url raw data.
+For example, if stock url is <cite>https://www.tickertape.in/stocks/hdfc-bank-HDBK</cite>
+then <cite>stocks/hdfc-bank-HDBK</cite> is the slug url.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame contains the share holding pattern.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_smallcase_holdings">
+<span class="sig-name descname"><span class="pre">get_smallcase_holdings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stock_slug_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_smallcase_holdings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_smallcase_holdings" title="Link to this definition"></a></dt>
+<dd><p>Get smallcase holdings for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>stock_slug_endpoint</strong> – It’s the part of url expect base url which navigates to the
+stock profile in the website. You can get this from search url raw data.
+For example, if stock url is <cite>https://www.tickertape.in/stocks/hdfc-bank-HDBK</cite>
+then <cite>stocks/hdfc-bank-HDBK</cite> is the slug url.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame containing smallcase holdings for the given ticker</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.get_ticker">
+<span class="sig-name descname"><span class="pre">get_ticker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.get_ticker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.get_ticker" title="Link to this definition"></a></dt>
+<dd><p>The get_ticker function takes a hint and search_place as arguments.
+The hint is the name of the company you are looking for, and search_place can be one of:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>all (default)</p></li>
+<li><p>stocks</p></li>
+<li><p>funds # mutual funds, ETFs etc.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class</p></li>
+<li><p><strong>hint</strong> – Search for the ticker</p></li>
+<li><p><strong>search_place</strong> – Specify the type of search you want to perform</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple with the first hit and all hits</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Fundamentals.TickerTape.Tickertape.peers_comparison">
+<span class="sig-name descname"><span class="pre">peers_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comparison_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'valuation'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Fundamentals/TickerTape.html#Tickertape.peers_comparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Fundamentals.TickerTape.Tickertape.peers_comparison" title="Link to this definition"></a></dt>
+<dd><p>Fetches and returns comparison data for a given ticker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represents the instance of the class</p></li>
+<li><p><strong>ticker</strong> – The ticker symbol of the stock</p></li>
+<li><p><strong>comparison_type</strong> – Type of comparison (valuation/technical). Defaults to ‘valuation’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The DataFrame containing the peers comparison result</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Technical.html" class="btn btn-neutral float-left" title="Technical package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Derivatives.html" class="btn btn-neutral float-right" title="Derivatives package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sampad Hegde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

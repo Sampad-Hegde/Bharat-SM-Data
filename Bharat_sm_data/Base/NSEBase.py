@@ -45,7 +45,7 @@ class NSEBase(CustomSession):
                           'Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54',
         })
         
-        self._base_url = 'https://www.nseindia.com/'
+        self._base_url = 'https://www.nseindia.com'
         self.hit_and_get_data(self._base_url)  
         # This will call the main website and sets cookies into a session object if available
 
@@ -95,6 +95,8 @@ class NSEBase(CustomSession):
 
             :return: A dataframe with second wise data
         """
+        if not ticker_or_index.endswith('EQN') and not is_index:
+            ticker_or_index += 'EQN'
 
         params = {'index': ticker_or_index}
         if is_index:

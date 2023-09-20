@@ -48,7 +48,7 @@ class Sensibull(CustomSession):
         })
         self._base_url = 'https://oxide.sensibull.com/v1/compute'
         try:
-            self.session.get('https://sensibull1.com/', headers=self.headers, timeout=10)
+            self.session.get('https://sensibull.com/', headers=self.headers, timeout=10)
             self.session.get('https://web.sensibull.com/optionchain', headers=self.headers, timeout=10)
         except Exception as err:
             print(f"Error Occurred while setting cookies for SENSIBULL, Error MSG: {err}")
@@ -57,7 +57,7 @@ class Sensibull(CustomSession):
     # Utility Functions
 
     @staticmethod
-    def _get_n_strikes_from_atm(atm_strike: int, num_lookups: int, strike_gap: int):
+    def _get_n_strikes_from_atm(atm_strike: int, num_lookups: int, strike_gap: int) -> list:
         """
             The get_n_strikes_from_atm function takes in an atm_strike, num, and strike_gap.
             It returns a list of strikes that are evenly spaced around the atm_strike by the strike gap.
@@ -83,7 +83,7 @@ class Sensibull(CustomSession):
     # ----------------------------------------------------------------------------------------------------------------
     # Generic Functions
 
-    def search_token(self, symbol: str):
+    def search_token(self, symbol: str) -> dict:
         """
             The search_token function takes in a symbol and returns the token of that symbol.
                 It does this by making a GET request to the Sensibull API, which returns an array of dictionaries.
@@ -101,7 +101,7 @@ class Sensibull(CustomSession):
         result = _.find(response, {'tradingsymbol': symbol})
         return result
 
-    def get_token_details(self, token: int):
+    def get_token_details(self, token: int) -> dict:
         """
             The get_token_details function takes in a token and returns the details of that token. The function first
             makes a GET request to the URL https://oxide.sensibull.com/v2/compute/cache/underlying_instruments,
@@ -121,7 +121,7 @@ class Sensibull(CustomSession):
     # ----------------------------------------------------------------------------------------------------------------
     # Options (Greeks) Functions
 
-    def get_options_data_with_greeks(self, ticker_data: dict, num_look_ups_from_atm: int, expiry_date: datetime):
+    def get_options_data_with_greeks(self, ticker_data: dict, num_look_ups_from_atm: int, expiry_date: datetime) -> tuple:
         """
             The get_options_data_with_greeks function takes in the following parameters:
                 ticker_data - a dictionary containing the instrument token and trading symbol of an underlying stock.
@@ -167,7 +167,3 @@ class Sensibull(CustomSession):
         df.drop(columns=rm_cols, inplace=True)
         return df, atm_strike
 
-
-# sens = Sensibull()
-#
-# print(sens.get_options_data_with_greeks(sens.get_token_details(260105), 4, datetime(2023, 8, 24)))

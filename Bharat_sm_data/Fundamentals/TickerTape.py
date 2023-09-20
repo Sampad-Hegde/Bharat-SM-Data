@@ -99,7 +99,6 @@ class Tickertape(CustomSession):
         _, raw = self.get_ticker(ticker)
         for datapoints in raw:
             if datapoints.get('ticker') == ticker:
-                print("URL : ", datapoints.get('slug'))
                 return datapoints.get('slug')
         return '/'
 
@@ -254,18 +253,20 @@ class Tickertape(CustomSession):
     # ----------------------------------------------------------------------------------------------------------------
     # Share Holding Patterns
 
-    def get_share_holding_pattern(self, ticker: str) -> pd.DataFrame:
+    def get_share_holding_pattern(self, stock_slug_endpoint: str) -> pd.DataFrame:
         """
             Get the share holding pattern for a given ticker.
 
             :param self: Represents the instance of the class
-            :param ticker: The ticker symbol of the stock
+            :param stock_slug_endpoint: It's the part of url expect base url which navigates to the
+                                        stock profile in the website. You can get this from search url raw data.
+                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`
+                                        then `stocks/hdfc-bank-HDBK` is the slug url.
 
             :return: The DataFrame contains the share holding pattern.
         """
 
-        stock_url = self._get_url_of_the_ticker(ticker)
-        response = self.session.get(f'https://www.tickertape.in/{stock_url}')
+        response = self.session.get(f'https://www.tickertape.in/{stock_slug_endpoint}')
         soup = BeautifulSoup(response.text, features="html5lib")
         sp_div = soup.find('script', attrs={'id': '__NEXT_DATA__'})
         data = json.loads(sp_div.contents[0].text)
@@ -273,18 +274,20 @@ class Tickertape(CustomSession):
         df = pd.DataFrame(pd.json_normalize(data, sep='_'))
         return df
 
-    def get_mutual_fund_holdings(self, ticker: str) -> pd.DataFrame:
+    def get_mutual_fund_holdings(self, stock_slug_endpoint: str) -> pd.DataFrame:
         """
             Get mutual fund holdings for a given ticker.
 
             :param self: Represents the instance of the class
-            :param ticker: The ticker symbol of the stock
+            :param stock_slug_endpoint: It's the part of url expect base url which navigates to the
+                                        stock profile in the website. You can get this from search url raw data.
+                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`
+                                        then `stocks/hdfc-bank-HDBK` is the slug url.
 
             :return: The DataFrame contains the mutual fund holdings.
         """
 
-        stock_url = self._get_url_of_the_ticker(ticker)
-        response = self.session.get(f'https://www.tickertape.in/{stock_url}')
+        response = self.session.get(f'https://www.tickertape.in/{stock_slug_endpoint}')
         soup = BeautifulSoup(response.text, features="html5lib")
         sp_div = soup.find('script', attrs={'id': '__NEXT_DATA__'})
         data = json.loads(sp_div.contents[0].text)
@@ -292,18 +295,20 @@ class Tickertape(CustomSession):
         df = pd.DataFrame(pd.json_normalize(data, sep='_'))
         return df
 
-    def get_smallcase_holdings(self, ticker: str) -> pd.DataFrame:
+    def get_smallcase_holdings(self, stock_slug_endpoint: str) -> pd.DataFrame:
         """
             Get smallcase holdings for a given ticker.
 
             :param self: Represents the instance of the class
-            :param ticker: The ticker symbol of the stock
+            :param stock_slug_endpoint: It's the part of url expect base url which navigates to the
+                                        stock profile in the website. You can get this from search url raw data.
+                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`
+                                        then `stocks/hdfc-bank-HDBK` is the slug url.
 
             :return: The DataFrame containing smallcase holdings for the given ticker
         """
 
-        stock_url = self._get_url_of_the_ticker(ticker)
-        response = self.session.get(f'https://www.tickertape.in/{stock_url}')
+        response = self.session.get(f'https://www.tickertape.in/{stock_slug_endpoint}')
         soup = BeautifulSoup(response.text, features="html5lib")
         sp_div = soup.find('script', attrs={'id': '__NEXT_DATA__'})
         data = json.loads(sp_div.contents[0].text)
@@ -313,18 +318,20 @@ class Tickertape(CustomSession):
 
     # ----------------------------------------------------------------------------------------------------------------
     # Dividends and important ratios
-    def get_dividends_history(self, ticker: str) -> pd.DataFrame:
+    def get_dividends_history(self, stock_slug_endpoint: str) -> pd.DataFrame:
         """
             Gets the dividend history for a given stock ticker.
 
             :param self: Represents the instance of the class
-            :param ticker: The ticker symbol of the stock
+            :param stock_slug_endpoint: It's the part of url expect base url which navigates to the
+                                        stock profile in the website. You can get this from search url raw data.
+                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`
+                                        then `stocks/hdfc-bank-HDBK` is the slug url.
 
             :return: The DataFrame contains the dividend history
         """
 
-        stock_url = self._get_url_of_the_ticker(ticker)
-        response = self.session.get(f'https://www.tickertape.in/{stock_url}')
+        response = self.session.get(f'https://www.tickertape.in/{stock_slug_endpoint}')
         soup = BeautifulSoup(response.text, features="html5lib")
         sp_div = soup.find('script', attrs={'id': '__NEXT_DATA__'})
         data = json.loads(sp_div.contents[0].text)
@@ -332,18 +339,20 @@ class Tickertape(CustomSession):
         df = pd.DataFrame(data.get('past', []) + data.get('upcoming', []))
         return df
 
-    def get_key_ratios(self, ticker: str) -> pd.DataFrame:
+    def get_key_ratios(self, stock_slug_endpoint: str) -> pd.DataFrame:
         """
             Get key ratios for a given stock ticker.
 
             :param self: Represents the instance of the class
-            :param ticker: The ticker symbol of the stock
+            :param stock_slug_endpoint: It's the part of url expect base url which navigates to the
+                                        stock profile in the website. You can get this from search url raw data.
+                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`
+                                        then `stocks/hdfc-bank-HDBK` is the slug url.
 
             :return: A transposed DataFrame containing the key ratios for the stock.
         """
 
-        stock_url = self._get_url_of_the_ticker(ticker)
-        response = self.session.get(f'https://www.tickertape.in/{stock_url}')
+        response = self.session.get(f'https://www.tickertape.in/{stock_slug_endpoint}')
         soup = BeautifulSoup(response.text, features="html5lib")
         sp_div = soup.find('script', attrs={'id': '__NEXT_DATA__'})
         data = json.loads(sp_div.contents[0].text)
@@ -441,22 +450,3 @@ class Tickertape(CustomSession):
         data['sid'] = main_df['sid']
         return data
 
-
-# ttp = Tickertape()
-# print(ttp.get_income_data('TCS', 'annual', view_type='margin'))
-# print(ttp.get_cash_flow_data('TCS'))
-# print(ttp.get_balance_sheet_data('TCS'))
-# print(ttp.peers_comparison('TCS', comparison_type='valuation'))
-# print(ttp.get_score_card('TCS'))
-# print(ttp.get_share_holding_pattern('TCS'))
-# print(ttp.get_mutual_fund_holdings('TCS'))
-# print(ttp.get_smallcase_holdings('INFY'))
-# print(ttp.get_dividends_history('TCS'))
-# print(ttp.get_key_ratios('INFY'))
-# print(ttp._get_url_of_the_ticker('TCS'))
-
-
-# print(ttp.get_key_ratios('NIFTY 50'))
-
-# print(ttp.get_equity_screener_data(filters=["mrktCapf", "lastPrice"], sortby='mrktCapf', number_of_records=20))
-# print(ttp.get_equity_screener_all_filters())

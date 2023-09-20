@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
-with open("README.md", "r") as f:
-    long_description = f.read()
+
+long_description = '''📈 Explore the dynamic world of the Indian Stock Market with our powerful open-source stock market scraping library. Effortlessly access real-time and historical data for derivatives, equities, currencies, commodities, ETFs, and more, enabling you to make informed investment decisions, develop trading strategies, and stay ahead of market trends. Our user-friendly API facilitates seamless integration, making it a valuable tool for traders, investors, and data enthusiasts. Join us in harnessing the power of data to unlock new opportunities in the ever-evolving landscape of the Indian financial markets. Start scraping today and gain a competitive edge in your financial ventures! 💼📊🚀'''
 
 
 setup(
@@ -31,7 +31,9 @@ setup(
         'pandas >= 2.0.3',
         'pydash >= 7.0.6',
         'beautifulsoup4 >= 4.12.2',
-        'numpy >= 1.25.2'
+        'numpy >= 1.25.2',
+        'html5lib >= 1.0',
+        'lxml >= 4.9.0'
     ],
     extras_require={
         "dev": ["twine>=4.0.2"],

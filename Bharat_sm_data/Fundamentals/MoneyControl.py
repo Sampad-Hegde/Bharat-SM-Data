@@ -1,3 +1,5 @@
+import io
+import warnings
 import json
 import math
 from datetime import datetime, timedelta
@@ -8,6 +10,7 @@ from pydash.collections import find
 
 from Base import CustomSession
 
+warnings.filterwarnings('ignore')
 
 class MoneyControl(CustomSession):
     """
@@ -128,8 +131,7 @@ class MoneyControl(CustomSession):
             except:
                 print(f'Only till {page + 1} is available; so, returning data collected so far')
                 return main_df
-            df = pd.read_html(response.text)[0]
-            print(df)
+            df = pd.read_html(io.StringIO(response.text))[0]
             df.columns = df.iloc[0]
             merge_col = df.iloc[0][0]
             df = df[1:]
@@ -211,7 +213,7 @@ class MoneyControl(CustomSession):
                                     params=params)
         soup = BeautifulSoup(response.text, features="html5lib")
         try:
-            data = json.loads(soup.find('div', attrs={'id': f'C-{statement_frequency}-graph'}).contents[0].text)
+            data = json.loads(soup.find('div', attrs={'id': f'{statement_type}-{statement_frequency}-graph'}).contents[0].text)
         except Exception as err:
             print(f'Exception happened while parsing webpage pls check all params once again; Error Message : {err}')
 
@@ -264,7 +266,7 @@ class MoneyControl(CustomSession):
         }
         response = self.session.get(f'{self._base_url}/mc/widget/mcfinancials/getFinancialData',
                                     params=params)
-        df = pd.read_html(response.text)[0]
+        df = pd.read_html(io.StringIO(response.text))[0]
         df.drop(columns=[df.columns.to_list()[-1]], inplace=True)  # drop the trend column
         return df
 
@@ -297,7 +299,7 @@ class MoneyControl(CustomSession):
         }
         response = self.session.get(f'{self._base_url}/mc/widget/mcfinancials/getFinancialData',
                                     params=params)
-        dfs = pd.read_html(response.text)
+        dfs = pd.read_html(io.StringIO(response.text))
         annual_headers = dfs[0].columns.to_list()
         annual_headers[0] = 'headers'
         for df in dfs:
@@ -335,7 +337,7 @@ class MoneyControl(CustomSession):
         }
         response = self.session.get(f'{self._base_url}/mc/widget/mcfinancials/getFinancialData',
                                     params=params)
-        df = pd.read_html(response.text)[0]
+        df = pd.read_html(io.StringIO(response.text))[0]
         df.drop(columns=[df.columns.to_list()[-1]], inplace=True)  # drop the trend column
         return df
 
@@ -368,7 +370,7 @@ class MoneyControl(CustomSession):
         }
         response = self.session.get(f'{self._base_url}/mc/widget/mcfinancials/getFinancialData',
                                     params=params)
-        dfs = pd.read_html(response.text)
+        dfs = pd.read_html(io.StringIO(response.text))
         annual_headers = dfs[0].columns.to_list()
         annual_headers[0] = 'ratios'
         for df in dfs:
@@ -583,38 +585,5 @@ class MoneyControl(CustomSession):
 
         data_url = self._get_all_extracted_urls(company_mc_url).get('Capital Structure')
         response = self.session.get(f'{data_url}', headers=self.headers)
-        df = pd.read_html(response.text)[0]
+        df = pd.read_html(io.StringIO(response.text))[0]
         return df
-
-
-# mc = MoneyControl()
-# print(mc.get_ticker('AARTI'))
-# print(mc.get_overview_statements('RI', statement_frequency=3))
-# print(mc.get_income_statement('RI', statement_frequency=6))
-# print(mc.get_balance_sheet_statement('RI'))
-# print(mc.get_cash_flow_statement('RI'))
-# print(mc.get_ratios('RI',))
-# print(mc.get_india_vix('1'))
-# print(mc.get_complete_balance_sheet('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45', num_years=5))
-# print(mc.get_complete_profit_loss('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-
-# print(mc.get_complete_quarterly_results('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-#                                   num_years=10))
-
-# print(mc.get_complete_half_yearly_results('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-#                                   num_years=10))
-
-# print(mc.get_complete_nine_months_results('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-#                                   num_years=10))
-#
-# print(mc.get_complete_yearly_results('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-#                                   num_years=10))
-#
-# print(mc.get_complete_cashflow_statement('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-#                                   num_years=10))
-#
-# print(mc.get_complete_ratios_data('https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-#                                   num_years=10))
-
-# print(mc.get_complete_capital_structure_statement(
-#     'https://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45'))

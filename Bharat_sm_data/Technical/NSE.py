@@ -1,7 +1,6 @@
 import pandas as pd
 
 from Base import NSEBase
-from Fundementals import MoneyControl
 
 # constants
 
@@ -61,7 +60,6 @@ class NSE(NSEBase):
             :return: None
         """
         super().__init__()
-        self.mc = MoneyControl()
         self._base_url = 'https://www.nseindia.com'
 
     def get_important_reports(self) -> dict:
@@ -238,13 +236,5 @@ class NSE(NSEBase):
             :return: DataFrame containing the India VIX data for last 2months or ~1780 OHLCV datapoints
         """
 
-        return self.mc.get_india_vix(interval)
+        return self.get_ohlc_data('INDIA VIX', timeframe=interval)
 
-
-nse = NSE()
-# print(nse.get_trade_info('SAHANA'))
-# print(nse.get_sme_stocks())
-# print(nse.get_all_indices())
-# print(nse.get_sgb_data())
-# print(nse.get_equities_data_from_index('PERMITTED to TRADE'))
-print(nse.get_india_vix('1'))

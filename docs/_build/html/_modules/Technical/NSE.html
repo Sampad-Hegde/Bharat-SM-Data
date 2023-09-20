@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical.NSE &mdash; Bharat (INDIA) Stock market Data Collection Library 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Bharat (INDIA) Stock market Data Collection Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Bharat (India) Stock Market Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Bharat (INDIA) Stock market Data Collection Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Technical.NSE</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Technical.NSE</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)))</span>
+
+<span class="kn">from</span> <span class="nn">Base</span> <span class="kn">import</span> <span class="n">NSEBase</span>
+
+<span class="c1"># constants</span>
+
+<div class="viewcode-block" id="NSE">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE">[docs]</a>
+<span class="k">class</span> <span class="nc">NSE</span><span class="p">(</span><span class="n">NSEBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to interact with the NSE (National Stock Exchange) API.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            mc : an instance of the MoneyControl class</span>
+
+<span class="sd">        Methods:</span>
+<span class="sd">            get_important_reports(report_name)</span>
+<span class="sd">                Retrieves the data for a specific report from the NSE API.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    report_name: The name of the report.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    The response of the request made to the NSE API.</span>
+
+<span class="sd">            Get_equities_data_from_index(index=&#39;SECURITIES IN F&amp;O&#39;)</span>
+<span class="sd">                Retrieves a pandas dataframe containing information about equities from a specific index.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    index: The index for which to retrieve the data. Defaults to &#39;SECURITIES IN F&amp;O&#39;.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    A dataframe with columns for symbol, series, security name, and last price.</span>
+
+<span class="sd">            Get_all_indices()</span>
+<span class="sd">                Retrieves a dataframe containing information about all indices.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    A dataframe with information about all indices.</span>
+
+<span class="sd">            Get_trade_info(ticker)</span>
+<span class="sd">                Retrieves trade information for a given ticker or list of tickers.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    ticker: The ticker or list of tickers for which to retrieve trade information.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    A dataframe with trade information.</span>
+
+<span class="sd">            Get_corporate_disclosures(ticker)</span>
+<span class="sd">                Retrieves corporate disclosures</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            It&#39;s a special function in Python classes, and it makes sure that every time you create a new instance of</span>
+<span class="sd">            this class,</span>
+<span class="sd">            the __init__ function gets called automatically to set up the attributes with their initial values.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+
+<span class="sd">            :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.nseindia.com&#39;</span>
+
+<div class="viewcode-block" id="NSE.get_important_reports">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_important_reports">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_important_reports</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_important_reports function takes in a report_name and returns the data for that report.</span>
+<span class="sd">            The function uses the try_n_times_get_response function to get a response from NSE&#39;s API.</span>
+<span class="sd">            If there is no error, it will return the data for that particular report.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: A dict of objects which will give links to various reports</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;favCapital&#39;</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/merged-daily-reports&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_equities_data_from_index">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_equities_data_from_index">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_equities_data_from_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;SECURITIES IN F&amp;O&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_equities_data_from_index function returns a dataframe containing the following information:</span>
+<span class="sd">                - Symbol</span>
+<span class="sd">                - Series (e.g. EQ, BE)</span>
+<span class="sd">                - Security Name (e.g. ACC LIMITED)</span>
+<span class="sd">                - Last Price (in Rs.)  # This is the last traded price of the equity on NSE for that day&#39;s trading session</span>
+<span class="sd">                                       # at 15:30 IST or 16:00 IST depending on whether it is a normal trading day or</span>
+<span class="sd">                                       not respectively</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">            :param index: Specify the index for which we want to get the data</span>
+
+<span class="sd">            :return: A dataframe with the following columns:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">index</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/equity-stockIndices&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="n">rm_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;chart&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;meta_is&#39;</span><span class="p">)</span>
+                   <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;meta_tempSuspended&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;meta_debtSeries&#39;</span><span class="p">)</span>
+                   <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;meta_activeSeries&#39;</span><span class="p">)]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rm_cols</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_all_indices">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_all_indices">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give a complete dataframe of all indices and its minimalistic data like OHLC</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: A DataFrame of all indices traded on NSE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="s2">&quot;https://www.nseindia.com/api/allIndices&quot;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Equity/ETF/SGB Related Data</span>
+<div class="viewcode-block" id="NSE.get_trade_info">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_trade_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_trade_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get trade information for one or more ticker(s).</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: this can a string represents single ticker ot list tickers.</span>
+
+<span class="sd">            :return: DataFrame containing the trade information for the given ticker(s).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="n">ticker</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tickers</span> <span class="o">=</span> <span class="n">ticker</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">tickers</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">complete_equity_info</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;trade_info&#39;</span><span class="p">]:</span>
+                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;section&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">section</span>
+                <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;section&#39;</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/quote-equity&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+                <span class="n">complete_equity_info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">complete_equity_info</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_corporate_disclosures">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_corporate_disclosures">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_corporate_disclosures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get corporate disclosure data</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: this can a string represents single ticker ot list tickers.</span>
+
+<span class="sd">            :return: DataFrame contains the corporate disclosures data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="n">ticker</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tickers</span> <span class="o">=</span> <span class="n">ticker</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="n">tickers</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span>
+                <span class="s1">&#39;section&#39;</span><span class="p">:</span> <span class="s1">&#39;corp_info&#39;</span>
+            <span class="p">}</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/quote-equity&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">ticker</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;corporate&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_sme_stocks">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_sme_stocks">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sme_stocks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get SME (Small Medium Enterprises) data</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: DataFrame containing SME Stocks data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/live-analysis-emerge&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_sgb_data">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_sgb_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sgb_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get trade information of Sovereign Gold Bonds data</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: DataFrame containing the trade information for SGB.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/sovereign-gold-bonds&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;meta&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_all_etf">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_all_etf">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all_etf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get trade information of all ETFs (Exchange Traded Funds)</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: DataFrame containing data of all ETFs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/etf&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;meta&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_all_today_block_deals">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_all_today_block_deals">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all_today_block_deals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get trade information for all block deals happened today;</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: DataFrame containing block deals data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/block-deal&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSE.get_india_vix">
+<a class="viewcode-back" href="../../Technical.html#Technical.NSE.NSE.get_india_vix">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_india_vix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will fetch the OHLCV datapoints of the INDIA Volatility Index.</span>
+
+<span class="sd">            :param interval: Time interval for the data (&#39;1d&#39; for daily qnd &#39;1&#39; for 1min)</span>
+
+<span class="sd">            :return: DataFrame containing the India VIX data for last 2months or ~1780 OHLCV datapoints</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ohlc_data</span><span class="p">(</span><span class="s1">&#39;INDIA VIX&#39;</span><span class="p">,</span> <span class="n">timeframe</span><span class="o">=</span><span class="n">interval</span><span class="p">)</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sampad Hegde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

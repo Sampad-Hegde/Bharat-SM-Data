@@ -99,7 +99,7 @@ class NSE(NSEBase):
         response = self.hit_and_get_data(url, params=params)
         return response
 
-    def get_options_expiry(self, ticker: str, nth_expiry: int = 0) -> datetime:
+    def get_options_expiry(self, ticker: str, is_index: bool = False) -> datetime:
         """
             The get_expiry function takes in a ticker and returns the next expiry date for that ticker.
             The function uses the NSE API to get all expiry dates for a given ticker, sorts them in ascending order,
@@ -107,16 +107,20 @@ class NSE(NSEBase):
 
             :param self: Represent the instance of the class
             :param ticker: Specify the ticker / symbol for which we want to get the expiry date
-            :param nth_expiry: To Get the nth next expiry date
+            :param is_index: Boolean value Specifies the given ticker is an index or not
 
             :return: The very next expiry date
         """
 
         params = {'symbol': ticker}
-        response = self.hit_and_get_data(f'{self._base_url}/api/option-chain-indices', params=params)
+        if is_index:
+            url = f'{self._base_url}/api/option-chain-indices'
+        else:
+            url = f'{self._base_url}/api/option-chain-equities'
+        response = self.hit_and_get_data(url, params=params)
         dates = sorted([datetime.strptime(date_str, "%d-%b-%Y") for date_str in
                         response.get('records', {}).get('expiryDates', [])])
-        return dates[nth_expiry]
+        return dates
 
     # ----------------------------------------------------------------------------------------------------------------_
     # Equity Futures
@@ -259,64 +263,43 @@ class NSE(NSEBase):
 
             :param self: Represent the instance of the class
 
-            :return: pd.DataFrame: DataFrame containing the currency futures data
+            :return: Pd.DataFrame: DataFrame containing the currency futures data
         """
         response = self.hit_and_get_data(f'{self._base_url}/api/liveCommodity-derivatives')
         df = pd.DataFrame(response.get('data', []))
         return df
 
-    def get_pcr(self, ticker: str, on_filed='OI', expiry: datetime = None) -> float:
+    def get_pcr(self, ticker: str, is_index: bool = True, on_field: str = 'OI', expiry: datetime = None) -> float:
         """
             Calculate the put-call ratio (PCR) for a given ticker.
 
             :param self: Represent the instance of the class
             :param ticker: The ticker symbol.
+            :param is_index: Boolean value Specifies the given ticker is an index or not
             :param expiry: The expiry date of the option contract. Defaults to None.
-            :param on_filed: The field to calculate PCR on. `volume` or `oi` (open-interest) Default to 'OI'.
+            :param on_field: The field to calculate PCR on. `Volume` or `oi` (open-interest) Default to 'OI'.
 
-            :return: he calculated PCR value
+            :return: The calculated PCR value
         """
 
-        on_filed = on_filed.lower()
-        if on_filed not in self.valid_pcr_fields:
+        on_field = on_field.lower()
+        if on_field not in self.valid_pcr_fields:
             print(f'Un-supported filed is passed only these are the fields available : {self.valid_pcr_fields}')
             return 0
 
         if expiry is None:
-            option_chain_raw = self.get_raw_option_chain(ticker)
-            if on_filed == 'oi':
-                put_oi = option_chain_raw.get('filtered', {}).get('PE', {}).get('totOI', 0)
-                call_oi = option_chain_raw.get('filtered', {}).get('CE', {}).get('totOI', 1)
-                return put_oi / call_oi
-            else:
-                put_vol = option_chain_raw.get('filtered', {}).get('PE', {}).get('totVol', 0)
-                call_vol = option_chain_raw.get('filtered', {}).get('CE', {}).get('totVol', 1)
-                return put_vol / call_vol
-
+            df = self.get_option_chain(ticker, is_index=is_index)
         else:
-            df = self.get_option_chain(ticker, expiry=expiry)
-            if df.shape[0] == 0:
-                print('Your filters lead to empty DataSet check all params, expiry, etc; returning 0 as default')
-                return 0
-            if on_filed == 'oi':
-                put_oi = df['PE_openInterest'].sum()
-                call_oi = df['CE_openInterest'].sum()
-                return put_oi / call_oi
-            else:
-                put_vol = df['PE_totalTradedVolume'].sum()
-                call_vol = df['CE_totalTradedVolume'].sum()
-                return put_vol / call_vol
+            df = self.get_option_chain(ticker, is_index=is_index, expiry=expiry)
 
-
-nse = NSE()
-# print(nse.get_ohlc_data('FUTIDXNIFTY31-08-2023XX0.00', is_index=False))
-df = nse.get_index_futures_data('NIFTY BANK FUTURES')
-nse.get_equity_options_trade_info()
-# print(df.columns)
-# print(nse.get_option_chain('RELIANCE', is_index=False))
-# print(nse.get_currency_futures())
-# print(nse.get_commodity_futures())
-# df = nse.get_option_chain('NIFTY')
-# print(df)
-data = nse.get_pcr('NIFTY', on_filed='volume')
-print(data)
+        if df.shape[0] == 0:
+            print('Your filters lead to empty DataSet check all params, expiry, etc; returning 0 as default')
+            return 0
+        if on_field == 'oi':
+            put_oi = df['PE_openInterest'].sum()
+            call_oi = df['CE_openInterest'].sum()
+            return put_oi / call_oi
+        else:
+            put_vol = df['PE_totalTradedVolume'].sum()
+            call_vol = df['CE_totalTradedVolume'].sum()
+            return put_vol / call_vol
