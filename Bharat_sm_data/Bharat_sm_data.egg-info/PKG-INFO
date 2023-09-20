@@ -7,7 +7,7 @@ Author: Sampad Hegde
 Author-email: me@sampadhegde.in
 License: apache-2
 Platform: UNKNOWN
-Classifier: License :: OSI Approved :: Apache-2
+Classifier: License :: OSI Approved :: Apache2
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.8

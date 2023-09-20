@@ -95,6 +95,8 @@ class NSEBase(CustomSession):
 
             :return: A dataframe with second wise data
         """
+        if not ticker_or_index.endswith('EQN') and not is_index:
+            ticker_or_index += 'EQN'
 
         params = {'index': ticker_or_index}
         if is_index:

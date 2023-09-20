@@ -76,7 +76,30 @@ class NSE(NSEBase):
             df = df[df['expiryDate'] == expiry.strftime('%d-%b-%Y')]
         return df
 
-    def get_options_expiry(self, ticker: str, nth_expiry: int = 0) -> datetime:
+    def get_raw_option_chain(self, ticker: str, is_index: bool = True) -> dict:
+        """
+            The get_option_chain function takes a ticker as input and returns the option chain for that ticker.
+            The function uses the try_n_times_get_response function to get a response from NSE's API, which is
+            then converted into a DataFrame using pd.json_normalize.
+
+            :param is_index: Boolean value Specifies the given ticker is an index or not
+            :param self: Represent the instance of the class
+            :param ticker: Specify the stock ticker for which we want to get the option chain
+
+            :return: A dataframe with option chain data
+        """
+
+        params = {'symbol': ticker}
+
+        if is_index:
+            url = f'{self._base_url}/api/option-chain-indices'
+        else:
+            url = f'{self._base_url}/api/option-chain-equities'
+
+        response = self.hit_and_get_data(url, params=params)
+        return response
+
+    def get_options_expiry(self, ticker: str, is_index: bool = False) -> datetime:
         """
             The get_expiry function takes in a ticker and returns the next expiry date for that ticker.
             The function uses the NSE API to get all expiry dates for a given ticker, sorts them in ascending order,
@@ -84,16 +107,20 @@ class NSE(NSEBase):
 
             :param self: Represent the instance of the class
             :param ticker: Specify the ticker / symbol for which we want to get the expiry date
-            :param nth_expiry: To Get the nth next expiry date
+            :param is_index: Boolean value Specifies the given ticker is an index or not
 
             :return: The very next expiry date
         """
 
         params = {'symbol': ticker}
-        response = self.hit_and_get_data(f'{self._base_url}/api/option-chain-indices', params=params)
+        if is_index:
+            url = f'{self._base_url}/api/option-chain-indices'
+        else:
+            url = f'{self._base_url}/api/option-chain-equities'
+        response = self.hit_and_get_data(url, params=params)
         dates = sorted([datetime.strptime(date_str, "%d-%b-%Y") for date_str in
                         response.get('records', {}).get('expiryDates', [])])
-        return dates[nth_expiry]
+        return dates
 
     # ----------------------------------------------------------------------------------------------------------------_
     # Equity Futures
@@ -171,7 +198,7 @@ class NSE(NSEBase):
             :return: A dict obj with all FUTURES mappings
         """
 
-        response = self.session.get(f'{self._base_url}/market-data/equity-derivatives-watch',
+        response = self.session.get(f'{self._base_url}//market-data/equity-derivatives-watch',
                                     headers=self.headers)
         soup = BeautifulSoup(response.text, features="html5lib")
         all_derivative_options = soup.find_all('option', attrs={"rel": "derivative"})
@@ -199,7 +226,7 @@ class NSE(NSEBase):
         except Exception as err:
             print(
                 f'Exception in fetching mapped ticker for this index try to pass actual ticker in the next call,  '
-                f'Exact error : {err} \n pick one from these : {mapped_tickers}')
+                f'Exact error : {err}')
 
         if index_or_ticker in mapped_tickers.keys():
             ticker_to_used = mapped_tickers[index_or_ticker]
@@ -236,22 +263,23 @@ class NSE(NSEBase):
 
             :param self: Represent the instance of the class
 
-            :return: pd.DataFrame: DataFrame containing the currency futures data
+            :return: Pd.DataFrame: DataFrame containing the currency futures data
         """
         response = self.hit_and_get_data(f'{self._base_url}/api/liveCommodity-derivatives')
         df = pd.DataFrame(response.get('data', []))
         return df
 
-    def get_pcr(self, ticker: str, is_index: bool = False, on_field: str = 'OI', expiry: datetime = None) -> float:
+    def get_pcr(self, ticker: str, is_index: bool = True, on_field: str = 'OI', expiry: datetime = None) -> float:
         """
             Calculate the put-call ratio (PCR) for a given ticker.
 
             :param self: Represent the instance of the class
             :param ticker: The ticker symbol.
+            :param is_index: Boolean value Specifies the given ticker is an index or not
             :param expiry: The expiry date of the option contract. Defaults to None.
-            :param on_field: The field to calculate PCR on. `volume` or `oi` (open-interest) Default to 'OI'.
+            :param on_field: The field to calculate PCR on. `Volume` or `oi` (open-interest) Default to 'OI'.
 
-            :return: he calculated PCR value
+            :return: The calculated PCR value
         """
 
         on_field = on_field.lower()

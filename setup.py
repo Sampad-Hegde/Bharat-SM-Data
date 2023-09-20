@@ -22,7 +22,7 @@ setup(
     author_email="me@sampadhegde.in",
     license="apache-2",
     classifiers=[
-        "License :: OSI Approved :: Apache-2",
+        "License :: OSI Approved :: Apache2",
         "Programming Language :: Python :: 3.8",
         "Operating System :: OS Independent",
     ],
