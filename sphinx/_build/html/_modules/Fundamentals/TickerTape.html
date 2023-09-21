@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundamentals.TickerTape &mdash; Bharat (INDIA) Stock market Data Collection Library 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Bharat (INDIA) Stock market Data Collection Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Bharat (India) Stock Market Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Bharat (INDIA) Stock market Data Collection Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Fundamentals.TickerTape</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Fundamentals.TickerTape</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pydash</span> <span class="k">as</span> <span class="nn">_</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)))</span>
+
+<span class="kn">from</span> <span class="nn">Base</span> <span class="kn">import</span> <span class="n">CustomSession</span>
+
+
+<div class="viewcode-block" id="Tickertape">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape">[docs]</a>
+<span class="k">class</span> <span class="nc">Tickertape</span><span class="p">(</span><span class="n">CustomSession</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to interact with the Tickertape API.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            valid_horizons : list of valid time horizons for financial data</span>
+<span class="sd">            valid_search_places: list of valid search places for ticker search</span>
+
+<span class="sd">        Methods:</span>
+<span class="sd">            __init__ : Initialize the Tickertape class</span>
+<span class="sd">            get_ticker : Get the ticker symbol and raw response for a given hint and search place</span>
+<span class="sd">            _get_url_of_the_ticker : Get the URL of the ticker</span>
+<span class="sd">            get_all_nifty_50_ticker : Get a list of tickers for the Nifty 50 index</span>
+<span class="sd">            get_all_constituents_of_index : Get a list of tickers for a given index</span>
+<span class="sd">            get_income_data : Get income data for a given ticker and time horizon</span>
+<span class="sd">            get_balance_sheet_data : Get balance sheet data for a given ticker</span>
+<span class="sd">            get_cash_flow_data : Get cash flow data for a given ticker</span>
+<span class="sd">            peers_comparison : Get peer comparison data for a given ticker and comparison type</span>
+<span class="sd">            get_score_card : Get the scorecard for a given ticker</span>
+<span class="sd">            get_share_holding_pattern : Get the share holding pattern for a given ticker</span>
+<span class="sd">            get_mutual_fund_holdings : Get the mutual fund holdings for a given ticker</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The __init__ function is called when the class is instantiated.</span>
+<span class="sd">            It&#39;s a special function in Python classes, and it makes sure that every time you create a new instance of</span>
+<span class="sd">            this class,</span>
+<span class="sd">            the __init__ function gets called automatically to set up the attributes with their initial values.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+
+<span class="sd">            :return: The session and headers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json, text/plain, */*&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Referer&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;accept-version&#39;</span><span class="p">:</span> <span class="s1">&#39;7.9.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                          <span class="s1">&#39;Chrome/108.0.0.0 Safari/537.36&#39;</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span> <span class="o">=</span> <span class="s1">&#39;https://api.tickertape.in&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_horizons</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;interim&#39;</span><span class="p">,</span> <span class="s1">&#39;annual&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_search_places</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;etf&#39;</span><span class="p">,</span> <span class="s1">&#39;mutualfund&#39;</span><span class="p">,</span> <span class="s1">&#39;space&#39;</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="s1">&#39;smallcase&#39;</span><span class="p">]</span>
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Basic Utility Functions</span>
+<div class="viewcode-block" id="Tickertape.get_ticker">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_ticker">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_ticker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hint</span><span class="p">,</span> <span class="n">search_place</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_ticker function takes a hint and search_place as arguments.</span>
+<span class="sd">            The hint is the name of the company you are looking for, and search_place can be one of:</span>
+<span class="sd">                - all (default)</span>
+<span class="sd">                - stocks</span>
+<span class="sd">                - funds # mutual funds, ETFs etc.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">            :param hint: Search for the ticker</span>
+<span class="sd">            :param search_place: Specify the type of search you want to perform</span>
+<span class="sd">            :return: A tuple with the first hit and all hits</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">search_place</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">search_place</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_search_places</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">search_place</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_search_places</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;You are providing wrong type of search; valid searches are : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_search_places</span><span class="si">}</span><span class="s1"> &#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39;and you can pass `all` in other case&#39;</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">hint</span><span class="p">,</span>
+            <span class="s1">&#39;types&#39;</span><span class="p">:</span> <span class="n">search_place</span><span class="p">,</span>
+            <span class="s1">&#39;pageNumber&#39;</span><span class="p">:</span> <span class="mi">0</span>
+
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s2">/search&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;data.items&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">first_hit</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sid&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">first_hit</span><span class="p">,</span> <span class="n">raw</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_get_url_of_the_ticker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get the URL of a ticker</span>
+
+<span class="sd">            :param self: Bind the method to an object</span>
+<span class="sd">            :param ticker: Search for the stock or index you want to get data on</span>
+
+<span class="sd">            :return: Tuple contains the ticker and the raw response</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ticker</span><span class="p">(</span><span class="n">ticker</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">datapoints</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">datapoints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ticker&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">ticker</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">datapoints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;slug&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;/&#39;</span>
+
+<div class="viewcode-block" id="Tickertape.get_all_nifty_50_ticker">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_all_nifty_50_ticker">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all_nifty_50_ticker</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_nifty_50_ticker function returns a list of tickers for the Nifty-50 index.</span>
+<span class="sd">            The function uses the hit_and_get_data function to get a response from</span>
+<span class="sd">            https://api.tickertape.in/indices/constituents/.NSEI, which is an API that provides data on</span>
+<span class="sd">            constituents of various indices in India, including the Nifty 50 index.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+
+<span class="sd">            :return: A list of tickers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tickertape_tickers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/indices/constituents/.NSEI&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tick</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;constituents&#39;</span><span class="p">]:</span>
+            <span class="n">tickertape_tickers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tick</span><span class="p">[</span><span class="s1">&#39;sid&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">tickertape_tickers</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_all_constituents_of_index">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_all_constituents_of_index">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all_constituents_of_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give all equities that are part of an index.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param index: The index name; for example .NSEI (nifty 50), .NIFTY500 (nifty 500)</span>
+
+<span class="sd">            :return: A list of tickers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/indices/constituents/</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;constituents&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Annual Report/ Quarterly Results extracted data</span>
+
+<div class="viewcode-block" id="Tickertape.get_income_data">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_income_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_income_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time_horizon</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;interim&#39;</span><span class="p">,</span> <span class="n">num_time_periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                        <span class="n">view_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get income data for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: The ticker symbol of the stock</span>
+<span class="sd">            :param time_horizon: The time horizon of the income data (interim / annual). Defaults to &#39;interim&#39;</span>
+<span class="sd">            :param num_time_periods: The number of time periods to retrieve. Default to 10.</span>
+<span class="sd">            :param view_type: The view type of the income data (normal / growth). Defaults to &#39;normal&#39;.</span>
+
+<span class="sd">            :return: The DataFrame containing income data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">time_horizon</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_horizons</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error You have passed wrong time horizon, valid horizons are : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_horizons</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">view_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;growth&#39;</span><span class="p">,</span> <span class="s1">&#39;margin&#39;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error You have passed wrong view type, valid view types are : </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;growth&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;margin&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;count&#39;</span> <span class="p">:</span> <span class="n">num_time_periods</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/stocks/financials/income/</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">time_horizon</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">view_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_balance_sheet_data">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_balance_sheet_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_balance_sheet_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_time_periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">growth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get balance sheet data for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: The ticker symbol of the stock</span>
+<span class="sd">            :param num_time_periods: The number of time periods to retrieve. Default to 10.</span>
+<span class="sd">            :param growth: Boolean flag tell the report is normal type or growth type.</span>
+
+<span class="sd">            :return: The DataFrame containing balance sheet data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">growth</span><span class="p">:</span>
+            <span class="n">growth_type</span> <span class="o">=</span> <span class="s1">&#39;growth&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">growth_type</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">num_time_periods</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/stocks/financials/balancesheet/</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s1">/annual/</span><span class="si">{</span><span class="n">growth_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_cash_flow_data">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_cash_flow_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_cash_flow_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_time_periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">growth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get cash flow data for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: The ticker symbol of the stock</span>
+<span class="sd">            :param num_time_periods: The number of time periods to retrieve. Default to 10.</span>
+<span class="sd">            :param growth: Boolean flag tell the report is normal type or growth type.</span>
+
+<span class="sd">            :return: The DataFrame containing cash flow data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">growth</span><span class="p">:</span>
+            <span class="n">growth_type</span> <span class="o">=</span> <span class="s1">&#39;growth&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">growth_type</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">num_time_periods</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/stocks/financials/cashflow/</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s1">/annual/</span><span class="si">{</span><span class="n">growth_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Peer Comparisons</span>
+
+<div class="viewcode-block" id="Tickertape.peers_comparison">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.peers_comparison">[docs]</a>
+    <span class="k">def</span> <span class="nf">peers_comparison</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">comparison_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;valuation&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Fetches and returns comparison data for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: The ticker symbol of the stock</span>
+<span class="sd">            :param comparison_type: Type of comparison (valuation/technical). Defaults to &#39;valuation&#39;.</span>
+
+<span class="sd">            :return: The DataFrame containing the peers comparison result</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">comparison_type</span> <span class="o">=</span> <span class="n">comparison_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;tab&#39;</span><span class="p">:</span> <span class="n">comparison_type</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/stocks/peers/</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># TickerTape Score cards</span>
+
+<div class="viewcode-block" id="Tickertape.get_score_card">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_score_card">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_score_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get the scorecard for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker: The ticker symbol of the stock</span>
+
+<span class="sd">            :return: The DataFrame contains all key flags like valuation, technical, growth red flags, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://analyze.api.tickertape.in/stocks/scorecard/</span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Share Holding Patterns</span>
+
+<div class="viewcode-block" id="Tickertape.get_share_holding_pattern">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_share_holding_pattern">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_share_holding_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stock_slug_endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get the share holding pattern for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param stock_slug_endpoint: It&#39;s the part of url expect base url which navigates to the</span>
+<span class="sd">                                        stock profile in the website. You can get this from search url raw data.</span>
+<span class="sd">                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`</span>
+<span class="sd">                                        then `stocks/hdfc-bank-HDBK` is the slug url.</span>
+
+<span class="sd">            :return: The DataFrame contains the share holding pattern.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://www.tickertape.in/</span><span class="si">{</span><span class="n">stock_slug_endpoint</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="n">sp_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;__NEXT_DATA__&#39;</span><span class="p">})</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sp_div</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pageProps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;securitySummary&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;holdings&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;holdings&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_mutual_fund_holdings">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_mutual_fund_holdings">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_mutual_fund_holdings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stock_slug_endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get mutual fund holdings for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param stock_slug_endpoint: It&#39;s the part of url expect base url which navigates to the</span>
+<span class="sd">                                        stock profile in the website. You can get this from search url raw data.</span>
+<span class="sd">                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`</span>
+<span class="sd">                                        then `stocks/hdfc-bank-HDBK` is the slug url.</span>
+
+<span class="sd">            :return: The DataFrame contains the mutual fund holdings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://www.tickertape.in/</span><span class="si">{</span><span class="n">stock_slug_endpoint</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="n">sp_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;__NEXT_DATA__&#39;</span><span class="p">})</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sp_div</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pageProps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;securitySummary&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mfHoldings&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_smallcase_holdings">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_smallcase_holdings">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_smallcase_holdings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stock_slug_endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get smallcase holdings for a given ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param stock_slug_endpoint: It&#39;s the part of url expect base url which navigates to the</span>
+<span class="sd">                                        stock profile in the website. You can get this from search url raw data.</span>
+<span class="sd">                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`</span>
+<span class="sd">                                        then `stocks/hdfc-bank-HDBK` is the slug url.</span>
+
+<span class="sd">            :return: The DataFrame containing smallcase holdings for the given ticker</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://www.tickertape.in/</span><span class="si">{</span><span class="n">stock_slug_endpoint</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="n">sp_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;__NEXT_DATA__&#39;</span><span class="p">})</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sp_div</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pageProps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;securitySummary&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;smallcases&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Dividends and important ratios</span>
+<div class="viewcode-block" id="Tickertape.get_dividends_history">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_dividends_history">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_dividends_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stock_slug_endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Gets the dividend history for a given stock ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param stock_slug_endpoint: It&#39;s the part of url expect base url which navigates to the</span>
+<span class="sd">                                        stock profile in the website. You can get this from search url raw data.</span>
+<span class="sd">                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`</span>
+<span class="sd">                                        then `stocks/hdfc-bank-HDBK` is the slug url.</span>
+
+<span class="sd">            :return: The DataFrame contains the dividend history</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://www.tickertape.in/</span><span class="si">{</span><span class="n">stock_slug_endpoint</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="n">sp_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;__NEXT_DATA__&#39;</span><span class="p">})</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sp_div</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pageProps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;securitySummary&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dividends&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;past&#39;</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;upcoming&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_key_ratios">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_key_ratios">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_key_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stock_slug_endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get key ratios for a given stock ticker.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param stock_slug_endpoint: It&#39;s the part of url expect base url which navigates to the</span>
+<span class="sd">                                        stock profile in the website. You can get this from search url raw data.</span>
+<span class="sd">                                        For example, if stock url is `https://www.tickertape.in/stocks/hdfc-bank-HDBK`</span>
+<span class="sd">                                        then `stocks/hdfc-bank-HDBK` is the slug url.</span>
+
+<span class="sd">            :return: A transposed DataFrame containing the key ratios for the stock.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://www.tickertape.in/</span><span class="si">{</span><span class="n">stock_slug_endpoint</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="n">sp_div</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;__NEXT_DATA__&#39;</span><span class="p">})</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sp_div</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;props&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pageProps&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;securityInfo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ratios&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">data</span><span class="p">])</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ticker</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">T</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># ETF related data</span>
+
+<div class="viewcode-block" id="Tickertape.get_all_etfs_under_index">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_all_etfs_under_index">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all_etfs_under_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get all ETFs under a specific index.</span>
+
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param index: A valid index traded on Indian Exchange.</span>
+
+<span class="sd">            :return: A DataFrame containing the ETF data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/indices/etfs/</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------_</span>
+    <span class="c1"># Equity Research Filters</span>
+
+<div class="viewcode-block" id="Tickertape.get_equity_screener_all_filters">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_equity_screener_all_filters">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_equity_screener_all_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_equity_screener_all_filters function returns a dictionary of all the filters available for equity screener.</span>
+<span class="sd">            The key is the display name and value is label name.</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :return: A dictionary of all the filters that can be used in the equity screener.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/screener/filters&#39;</span><span class="p">)</span>
+        <span class="n">all_filters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">filters_type</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">fltr</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filters_type</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">fltr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;premium&#39;</span><span class="p">):</span>
+                    <span class="n">all_filters</span><span class="p">[</span><span class="n">fltr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">fltr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">all_filters</span></div>
+
+
+<div class="viewcode-block" id="Tickertape.get_equity_screener_data">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.TickerTape.Tickertape.get_equity_screener_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_equity_screener_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">sortby</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">number_of_records</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            !! Carefully call this function because this is a heavy and time-consuming function.</span>
+<span class="sd">            Save the data once you get the data to save resource and time !!</span>
+
+<span class="sd">            The get_equity_screener_data function is used to retrieve equity screener data from the</span>
+<span class="sd">                https://api.kite.trade/screener/query endpoint of the Kite Connect API.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">            :param filters: list: Define the columns that you want to be returned in your dataframe you can pass all</span>
+<span class="sd">            filters which are non-premium aka values list of `get_equity_screener_all_filters` function returned</span>
+<span class="sd">            dictionary.</span>
+<span class="sd">            :param sortby: str: Sort the dataframe by a specific column if you don&#39;t pass this it will consider the 1st</span>
+<span class="sd">            value of filters list.</span>
+<span class="sd">            :param number_of_records: int: Limit the number of records that are returned</span>
+<span class="sd">            :return: A pandas dataframe with the all data you asked in the `filters` field. You can save this data</span>
+<span class="sd">            df and use it for your research</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sortby</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sortby</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+            <span class="n">sortby</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">sortby</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sortby</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You can&#39;t sort on filed which is even not in your filters projection&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">number_of_records</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">number_of_records</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+
+        <span class="n">main_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">json_data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;match&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                <span class="s1">&#39;sortBy&#39;</span><span class="p">:</span> <span class="n">sortby</span><span class="p">,</span>
+                <span class="s1">&#39;sortOrder&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">filters</span><span class="p">,</span>
+                <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">page</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="s1">&#39;sids&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="p">}</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/screener/query&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                                         <span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">page</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">&gt;</span> <span class="n">number_of_records</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">main_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">main_df</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">main_df</span><span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;advancedRatios&#39;</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="s1">&#39;stock&#39;</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;sid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">main_df</span><span class="p">[</span><span class="s1">&#39;sid&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sampad Hegde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

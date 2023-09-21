@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundamentals.MoneyControl &mdash; Bharat (INDIA) Stock market Data Collection Library 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Bharat (INDIA) Stock market Data Collection Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Bharat (India) Stock Market Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Bharat (INDIA) Stock market Data Collection Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Fundamentals.MoneyControl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Fundamentals.MoneyControl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">pydash.collections</span> <span class="kn">import</span> <span class="n">find</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)))</span>
+
+<span class="kn">from</span> <span class="nn">Base</span> <span class="kn">import</span> <span class="n">CustomSession</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MoneyControl">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl">[docs]</a>
+<span class="k">class</span> <span class="nc">MoneyControl</span><span class="p">(</span><span class="n">CustomSession</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to control money-related operations.</span>
+
+<span class="sd">       Attributes:</span>
+<span class="sd">           No Attributes</span>
+
+<span class="sd">       Methods:</span>
+<span class="sd">        __init__(): Initializes the MoneyControl class.</span>
+<span class="sd">        get_ticker(search_text: str) -&gt; tuple: Retrieve the ticker for a given search text.</span>
+<span class="sd">       _get_all_extracted_urls(main_url: str): Retrieve all extracted URLs from the main URL.</span>
+<span class="sd">       _common_complete_sheet_data_extractor(company_mc_url, statement_type, report_data, pages): Extracts</span>
+<span class="sd">       data from the given URL and returns a DataFrame.</span>
+<span class="sd">       get_india_vix(interval: str) -&gt; pd.DataFrame: Retrieves India Vix data for a given interval.</span>
+<span class="sd">       get_overview_mini_statement(ticker: str, statement_type: str = &#39;consolidated&#39;,</span>
+<span class="sd">       statement_frequency: int = 12): Retrieve the overview mini statement for a given ticker.</span>
+<span class="sd">       get_income_mini_statement(ticker: str, statement_type: str = &#39;consolidated&#39;, statement_frequency: int = 12):</span>
+<span class="sd">       Retrieves the income mini statement for a given ticker.</span>
+<span class="sd">       get_balance_sheet_mini_statement(ticker: str,</span>
+<span class="sd">       statement_type: str = &#39;consolidated&#39;): Retrieves the balance sheet mini statement for a given ticker.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The __init__ function gets called automatically to set up the attributes with their initial values.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json, text/plain, */*&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Referer&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;accept-version&#39;</span><span class="p">:</span> <span class="s1">&#39;7.9.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                          <span class="s1">&#39;Chrome/108.0.0.0 Safari/537.36&#39;</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.moneycontrol.com&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_intervals_for_vix</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span>  <span class="c1"># 1 min</span>
+                                        <span class="s1">&#39;1d&#39;</span><span class="p">,</span>  <span class="c1"># 1 day</span>
+                                        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;consolidated&#39;</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;standalone&#39;</span><span class="p">:</span> <span class="s1">&#39;S&#39;</span><span class="p">}</span>
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Basic Utility Functions</span>
+<div class="viewcode-block" id="MoneyControl.get_ticker">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_ticker">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_ticker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get ticker information for a given search text.</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param search_text: The text to search for.</span>
+
+<span class="sd">           :return: A tuple containing the stock ID and the corresponding object (raw data).</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classic&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">search_text</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;callback&#39;</span><span class="p">:</span> <span class="s1">&#39;suggest1&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/mccode/common/autosuggestion_solr.php/&#39;</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;stock_name&#39;</span><span class="p">:</span> <span class="n">search_text</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;sc_id&#39;</span><span class="p">],</span> <span class="n">obj</span>
+
+        <span class="k">return</span> <span class="n">resp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;sc_id&#39;</span><span class="p">],</span> <span class="n">resp</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_get_all_extracted_urls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">main_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get all extracted URLs from a main URL.</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param main_url: The main URL to extract URLs from.</span>
+
+<span class="sd">           :return: A list of strikes</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">main_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="n">ul</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;quick_links clearfix&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)</span>
+        <span class="n">urls</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">li</span> <span class="ow">in</span> <span class="n">ul</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">li</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">li</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+            <span class="n">urls</span><span class="p">[</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="k">return</span> <span class="n">urls</span>
+
+    <span class="k">def</span> <span class="nf">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">report_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">pages</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            It&#39;s a helper function that reduces some re-occurring functions;</span>
+<span class="sd">            Extracts complete sheet data for a given company, statement type, report data, and number of pages.</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Moneycontrol URL for the company</span>
+<span class="sd">            :param statement_type: Type of the statement (consolidated or standalone)</span>
+<span class="sd">            :param report_data: key value pair which gives report name and its key-name</span>
+<span class="sd">            :param pages: Number of pages to extract data from (1 page = 5 time-periods)</span>
+
+<span class="sd">            :return: Extracted data as a DataFrame</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">data_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_extracted_urls</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">report_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;report_name&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">main_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="o">==</span> <span class="s1">&#39;consolidated&#39;</span><span class="p">:</span>
+            <span class="n">data_url</span> <span class="o">=</span> <span class="n">data_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">report_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;report_code&#39;</span><span class="p">),</span>
+                                        <span class="sa">f</span><span class="s2">&quot;consolidated-</span><span class="si">{</span><span class="n">report_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;report_code&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pages</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">data_url</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">page</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Only till </span><span class="si">{</span><span class="n">page</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1"> is available; so, returning data collected so far&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">main_df</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">merge_col</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">main_df</span> <span class="o">=</span> <span class="n">df</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">main_df</span> <span class="o">=</span> <span class="n">main_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">merge_col</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">main_df</span>
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># India Vix</span>
+<div class="viewcode-block" id="MoneyControl.get_india_vix">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_india_vix">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_india_vix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           This will fetch the OHLCV datapoints of the INDIA Volatility Index.</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param interval: Time interval for the data (&#39;1d&#39; for daily qnd &#39;1&#39; for 1min)</span>
+
+<span class="sd">           :return: DataFrame containing the India VIX data for last 2months or ~1780 OHLCV datapoints</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>  <span class="c1"># set to now for getting latest vix</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="s1">&#39;in;IDXN&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="n">interval</span><span class="p">,</span>
+            <span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()),</span>
+            <span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()),</span>
+            <span class="s1">&#39;countback&#39;</span><span class="p">:</span> <span class="s1">&#39;1782&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;currencyCode&#39;</span><span class="p">:</span> <span class="s1">&#39;INR&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="s1">&#39;https://priceapi.moneycontrol.com/techCharts/history&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Deleting Exception!! Error : </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Mini Statements regd financials of Equity</span>
+<div class="viewcode-block" id="MoneyControl.get_overview_mini_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_overview_mini_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_overview_mini_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;consolidated&#39;</span><span class="p">,</span>
+                                    <span class="n">statement_frequency</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           This will give highly extracted and most commonly used data from quarterly/annual reports</span>
+<span class="sd">           this is good for quick comparisons, as it suggests it will give mini statements</span>
+<span class="sd">           which means it will give data only for few time periods (quarterly/annual/6months/9months)</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param ticker: The moneycontrol ticker symbol of the company.</span>
+<span class="sd">           :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">           Defaults to &#39;consolidated&#39;.</span>
+<span class="sd">           :param statement_frequency: (Optional) The frequency of the statement. Defaults to 12.</span>
+
+<span class="sd">           :return: The processed data in a DataFrame format.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">valid_frequencies</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+        <span class="n">statement_type</span> <span class="o">=</span> <span class="n">statement_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">statement_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="p">[</span><span class="n">statement_type</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">statement_frequency</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_frequencies</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid statement frequency passed; these are the only allowed statements : </span><span class="si">{</span><span class="n">valid_frequencies</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classic&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;referenceId&#39;</span><span class="p">:</span> <span class="s1">&#39;overview&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;requestType&#39;</span><span class="p">:</span> <span class="n">statement_type</span><span class="p">,</span>
+            <span class="s1">&#39;scId&#39;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span>
+            <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement_frequency</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/mc/widget/mcfinancials/getFinancialData&#39;</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">statement_type</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">statement_frequency</span><span class="si">}</span><span class="s1">-graph&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Exception happened while parsing webpage pls check all params once again; Error Message : </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">processed_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;headings&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">processed_data</span><span class="p">[</span><span class="s1">&#39;headings&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;heading&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">processed_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">processed_data</span><span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">processed_data</span><span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">processed_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_income_mini_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_income_mini_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_income_mini_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;consolidated&#39;</span><span class="p">,</span>
+                                  <span class="n">statement_frequency</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           This will give highly extracted and most commonly used data from quarterly/annual reports</span>
+<span class="sd">           this is good for quick comparisons, as it suggests it will give mini statements</span>
+<span class="sd">           which means it will give data only for few time periods (quarterly/annual/6months/9months)</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param ticker: The moneycontrol ticker symbol of the company.</span>
+<span class="sd">           :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">           Defaults to &#39;consolidated&#39;.</span>
+<span class="sd">           :param statement_frequency: (Optional) The frequency of the statement. Defaults to 12.</span>
+
+<span class="sd">           :return: The company income data in a DataFrame format.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">valid_frequencies</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+        <span class="n">statement_type</span> <span class="o">=</span> <span class="n">statement_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">statement_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="p">[</span><span class="n">statement_type</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">statement_frequency</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_frequencies</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid statement frequency passed; these are the only allowed statements : </span><span class="si">{</span><span class="n">valid_frequencies</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classic&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;referenceId&#39;</span><span class="p">:</span> <span class="s1">&#39;income&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;requestType&#39;</span><span class="p">:</span> <span class="n">statement_type</span><span class="p">,</span>
+            <span class="s1">&#39;scId&#39;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span>
+            <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement_frequency</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/mc/widget/mcfinancials/getFinancialData&#39;</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># drop the trend column</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_balance_sheet_mini_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_balance_sheet_mini_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_balance_sheet_mini_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;consolidated&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           This will give highly extracted and most commonly used data from quarterly/annual reports</span>
+<span class="sd">           this is good for quick comparisons, as it suggests it will give mini statements</span>
+<span class="sd">           which means it will give data only for few time periods (quarterly/annual/6months/9months)</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param ticker: The moneycontrol ticker symbol of the company.</span>
+<span class="sd">           :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">           Defaults to &#39;consolidated&#39;.</span>
+
+<span class="sd">           :return: The company balance sheet data in a DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">statement_type</span> <span class="o">=</span> <span class="n">statement_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">statement_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="p">[</span><span class="n">statement_type</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classic&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;referenceId&#39;</span><span class="p">:</span> <span class="s1">&#39;balance-sheet&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;requestType&#39;</span><span class="p">:</span> <span class="n">statement_type</span><span class="p">,</span>
+            <span class="s1">&#39;scId&#39;</span><span class="p">:</span> <span class="n">ticker</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/mc/widget/mcfinancials/getFinancialData&#39;</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">dfs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+        <span class="n">annual_headers</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">annual_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;headers&#39;</span>
+        <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">annual_headers</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># drop the trend column</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_cash_flow_mini_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_cash_flow_mini_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_cash_flow_mini_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;consolidated&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           This will give highly extracted and most commonly used data from quarterly/annual reports</span>
+<span class="sd">           this is good for quick comparisons, as it suggests it will give mini statements</span>
+<span class="sd">           which means it will give data only for few time periods (quarterly/annual/6months/9months)</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param ticker: The moneycontrol ticker symbol of the company.</span>
+<span class="sd">           :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">           Defaults to &#39;consolidated&#39;.</span>
+
+<span class="sd">           :return: The company&#39;s cash flow statements data in a DataFrame format.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">statement_type</span> <span class="o">=</span> <span class="n">statement_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">statement_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="p">[</span><span class="n">statement_type</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classic&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;referenceId&#39;</span><span class="p">:</span> <span class="s1">&#39;cash-flow&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;requestType&#39;</span><span class="p">:</span> <span class="n">statement_type</span><span class="p">,</span>
+            <span class="s1">&#39;scId&#39;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/mc/widget/mcfinancials/getFinancialData&#39;</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># drop the trend column</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_ratios_mini_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_ratios_mini_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_ratios_mini_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;consolidated&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           This will give highly extracted and most commonly used data from quarterly/annual reports</span>
+<span class="sd">           this is good for quick comparisons, as it suggests it will give mini statements</span>
+<span class="sd">           which means it will give data only for few time periods (quarterly/annual/6months/9months)</span>
+
+<span class="sd">           :param self: Represent the instance of the class.</span>
+<span class="sd">           :param ticker: The moneycontrol ticker symbol of the company.</span>
+<span class="sd">           :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">           Defaults to &#39;consolidated&#39;.</span>
+
+<span class="sd">           :return: The company&#39;s key performance ratios in DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">statement_type</span> <span class="o">=</span> <span class="n">statement_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">statement_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="p">[</span><span class="n">statement_type</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;classic&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;referenceId&#39;</span><span class="p">:</span> <span class="s1">&#39;ratios&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;requestType&#39;</span><span class="p">:</span> <span class="n">statement_type</span><span class="p">,</span>
+            <span class="s1">&#39;scId&#39;</span><span class="p">:</span> <span class="n">ticker</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/mc/widget/mcfinancials/getFinancialData&#39;</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">dfs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+        <span class="n">annual_headers</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">annual_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ratios&#39;</span>
+        <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">annual_headers</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># drop the trend column</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Complete Statements regd financials of Equity</span>
+
+<div class="viewcode-block" id="MoneyControl.get_complete_balance_sheet">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_balance_sheet">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_balance_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span> <span class="n">num_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_years: (Optional) Number of years for which balance sheet data is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete balance sheet data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_years</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Balance Sheet&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;balance-sheet&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_profit_loss">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_profit_loss">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_profit_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span> <span class="n">num_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_years: (Optional) Number of years for which a P&amp;L statement is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete P&amp;L statement data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_years</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Profit &amp; Loss&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;profit-loss&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_quarterly_results">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_quarterly_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_quarterly_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span>
+                                       <span class="n">num_quarters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_quarters: (Optional) Number of quarters for which quarterly results are required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete quarterly (25th percentile of the year) results data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_quarters</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Quarterly Results&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;quarterly-result&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_half_yearly_results">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_half_yearly_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_half_yearly_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span>
+                                         <span class="n">num_half_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_half_years: (Optional) Number of 6months data is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete half-yearly (50th percentile of the year) results data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_half_years</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Half Yearly Results&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;half-yearly&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_nine_months_results">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_nine_months_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_nine_months_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span>
+                                         <span class="n">num_nine_months</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_nine_months: (Optional) Number of 9months data is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete nine-months (75th percentile of the year) data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_nine_months</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Nine Months Results&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;nine-months&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_yearly_results">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_yearly_results">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_yearly_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span>
+                                    <span class="n">num_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_years: (Optional) The Number of annual reports is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete annual (100th percentile of the year) report data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_years</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Yearly Results&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;yearly&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_cashflow_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_cashflow_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_cashflow_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span>
+                                        <span class="n">num_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_years: (Optional) The Number of annual reports is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete cash-flow statements data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_years</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Cash Flows&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;cash-flow&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_ratios_data">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_ratios_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_ratios_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;standalone&#39;</span><span class="p">,</span>
+                                 <span class="n">num_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+<span class="sd">            :param statement_type: (Optional) The type of statement to retrieve (consolidated / standalone).</span>
+<span class="sd">            Defaults to &#39;standalone&#39;.</span>
+<span class="sd">            :param num_years: (Optional) The number of annual reports is required (min 5,</span>
+<span class="sd">            and it should be multiple of 5)</span>
+
+<span class="sd">            :return: Complete key ratios data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_years</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">statement_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid statement type passed; these are the only allowed statements : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_reports_type</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;report_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Ratios&#39;</span><span class="p">,</span> <span class="s1">&#39;report_code&#39;</span><span class="p">:</span> <span class="s1">&#39;ratios&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_common_complete_sheet_data_extractor</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">,</span> <span class="n">statement_type</span><span class="p">,</span> <span class="n">report_data</span><span class="p">,</span> <span class="n">pages</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoneyControl.get_complete_capital_structure_statement">
+<a class="viewcode-back" href="../../Fundamentals.html#Fundamentals.MoneyControl.MoneyControl.get_complete_capital_structure_statement">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_complete_capital_structure_statement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company_mc_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This will give complete data of quarterly/annual reports.</span>
+<span class="sd">            This is a complete report that can be used any fundamental deep analysis</span>
+
+<span class="sd">            :param self: Represent the instance of the class.</span>
+<span class="sd">            :param company_mc_url: Company&#39;s main MoneyControl url (this can be taken from get_ticker() function)</span>
+
+<span class="sd">            :return: Complete capital Structure data in the DataFrame format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_extracted_urls</span><span class="p">(</span><span class="n">company_mc_url</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Capital Structure&#39;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">data_url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sampad Hegde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

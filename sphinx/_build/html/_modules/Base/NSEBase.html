@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base.NSEBase &mdash; Bharat (INDIA) Stock market Data Collection Library 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Bharat (INDIA) Stock market Data Collection Library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Bharat (India) Stock Market Data</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Bharat (INDIA) Stock market Data Collection Library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Base.NSEBase</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Base.NSEBase</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pydash</span> <span class="k">as</span> <span class="nn">_</span>
+<span class="kn">from</span> <span class="nn">.CustomRequest</span> <span class="kn">import</span> <span class="n">CustomSession</span>
+
+
+<div class="viewcode-block" id="NSEBase">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase">[docs]</a>
+<span class="k">class</span> <span class="nc">NSEBase</span><span class="p">(</span><span class="n">CustomSession</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to interact with the NSE (National Stock Exchange) API.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            _base_url: base URL for the NSE API</span>
+
+<span class="sd">        Methods:</span>
+<span class="sd">            __init__(): Initializes the class and sets up the session and headers for all subsequent requests.</span>
+<span class="sd">            get_market_status_and_current_val(index: str = &#39;NIFTY 50&#39;) -&gt; tuple: Returns the market status and current value of a given index.</span>
+<span class="sd">            get_last_traded_date() -&gt; datetime.date: Returns the last traded date of NIFTY 50 index.</span>
+<span class="sd">            get_second_wise_data(ticker_or_index: str = &quot;NIFTY 50&quot;, is_index: bool = True, underlying_symbol: str = None) -&gt; pd.DataFrame: Returns a dataframe with second wise data for a given index or stock.</span>
+<span class="sd">            get_ohlc_data(ticker_or_idx: str = &quot;NIFTY 50&quot;, timeframe: str = &#39;5Min&#39;, is_index: bool = True, underlying_symbol: str = None) -&gt; pd.DataFrame: Returns the OHLC data for a given ticker or index.</span>
+<span class="sd">            search(search_text: str) -&gt; dict: Searches for data related to an equity, derivative, or any type of asset traded on NSE.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The __init__ function is called when the class is instantiated.</span>
+<span class="sd">            It sets up the session and headers for all subsequent requests.</span>
+<span class="sd">    </span>
+<span class="sd">            :param self: Represent the instance of the class</span>
+
+<span class="sd">            :return: Nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;authority&#39;</span><span class="p">:</span> <span class="s1">&#39;www.nseindia.com&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;accept&#39;</span><span class="p">:</span> <span class="s1">&#39;*/*&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;accept-language&#39;</span><span class="p">:</span> <span class="s1">&#39;en-US,en;q=0.9&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;referer&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.nseindia.com/&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sec-ch-ua-mobile&#39;</span><span class="p">:</span> <span class="s1">&#39;?0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sec-ch-ua-platform&#39;</span><span class="p">:</span> <span class="s1">&#39;&quot;Windows&quot;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sec-fetch-dest&#39;</span><span class="p">:</span> <span class="s1">&#39;empty&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sec-fetch-mode&#39;</span><span class="p">:</span> <span class="s1">&#39;cors&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sec-fetch-site&#39;</span><span class="p">:</span> <span class="s1">&#39;same-origin&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;user-agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#39;</span>
+                          <span class="s1">&#39;Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54&#39;</span><span class="p">,</span>
+        <span class="p">})</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.nseindia.com&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="p">)</span>  
+        <span class="c1"># This will call the main website and sets cookies into a session object if available</span>
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Utility Functions</span>
+
+<div class="viewcode-block" id="NSEBase.get_market_status_and_current_val">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.get_market_status_and_current_val">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_market_status_and_current_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;NIFTY 50&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_market_status_and_current_val function returns the market status and current value of a given index.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">            :param index: Get the market status and last price of a particular index</span>
+
+<span class="sd">            :return: A tuple of the market status and the current value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/marketStatus&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;marketState&#39;</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;NIFTY 50&#39;</span><span class="p">}),</span> <span class="s1">&#39;marketStatus&#39;</span><span class="p">,</span> <span class="s1">&#39;Close&#39;</span><span class="p">)</span>
+        <span class="n">last_price</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">index</span><span class="p">}),</span> <span class="s1">&#39;last&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">last_price</span></div>
+
+
+<div class="viewcode-block" id="NSEBase.get_last_traded_date">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.get_last_traded_date">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_last_traded_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_last_traded_date function returns the last traded date of NIFTY 50 index.</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">            :return: The date of the last traded day</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/marketStatus&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;marketState&#39;</span><span class="p">)</span>
+        <span class="n">last_traded</span> <span class="o">=</span> <span class="n">_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;NIFTY 50&#39;</span><span class="p">}),</span> <span class="s1">&#39;tradeDate&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">last_traded</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">-%b-%Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Common Functions - works for both Equity as well index-related data fetches</span>
+
+<div class="viewcode-block" id="NSEBase.get_second_wise_data">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.get_second_wise_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_second_wise_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker_or_index</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;NIFTY 50&quot;</span><span class="p">,</span> <span class="n">is_index</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">underlying_symbol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_second_wise_data function returns a dataframe with the following columns:</span>
+<span class="sd">                timestamp - The time at which the price was recorded.</span>
+<span class="sd">                price - The value of the index/stock at that particular time.</span>
+
+<span class="sd">            :param self: Bind the method to a class</span>
+<span class="sd">            :param ticker_or_index: Specify the index for which we want to get data</span>
+<span class="sd">            :param is_index: (optional) Determine whether the index is an index or not</span>
+<span class="sd">            :param underlying_symbol: (optional) This is required for fetching derivatives OHLC data where underlying</span>
+<span class="sd">            assets ticker</span>
+
+<span class="sd">            :return: A dataframe with second wise data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ticker_or_index</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;EQN&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_index</span><span class="p">:</span>
+            <span class="n">ticker_or_index</span> <span class="o">+=</span> <span class="s1">&#39;EQN&#39;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">ticker_or_index</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">is_index</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;indices&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">underlying_symbol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;underlyingsymbol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">underlying_symbol</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/chart-databyindex&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;preopen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">pre_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/chart-databyindex&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pre_response</span><span class="p">,</span> <span class="s1">&#39;grapthData&#39;</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;grapthData&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">])</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSEBase.get_ohlc_data">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.get_ohlc_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_ohlc_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker_or_idx</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;NIFTY 50&quot;</span><span class="p">,</span> <span class="n">timeframe</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;5Min&#39;</span><span class="p">,</span> <span class="n">is_index</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                      <span class="n">underlying_symbol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The get_ohlc_data function takes in a ticker or index name, and returns the OHLC data for that ticker/index.</span>
+<span class="sd">            The function also takes in a timeframe parameter which can be used to specify the time interval of each</span>
+<span class="sd">            candle. By default, it is set to 5 minutes.</span>
+
+<span class="sd">            :param underlying_symbol: Index Symbol for options strikes</span>
+<span class="sd">            :param self: Represents the instance of the class</span>
+<span class="sd">            :param ticker_or_idx: Specify the ticker or index for which we want to get data</span>
+<span class="sd">            :param timeframe: (optional) Define the time interval for which we want to get the data</span>
+<span class="sd">            :param is_index: (optional) Determine whether the ticker is an index or a stock</span>
+
+<span class="sd">            :return: The ohlc data for a given ticker or index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_second_wise_data</span><span class="p">(</span><span class="n">ticker_or_idx</span><span class="p">,</span> <span class="n">is_index</span><span class="p">,</span> <span class="n">underlying_symbol</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;timestamp&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">timeframe</span><span class="p">)</span><span class="o">.</span><span class="n">ohlc</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="c1"># ----------------------------------------------------------------------------------------------------------------</span>
+    <span class="c1"># Search and exchange related data</span>
+
+<div class="viewcode-block" id="NSEBase.search">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.search">[docs]</a>
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The search function can be used to take out data related to an Equity/ Derivatives or any type of asset</span>
+<span class="sd">            traded on NSE, this is required to take out symbol/ticker ids respective to that asset</span>
+
+<span class="sd">            :param self: Represent the instance of the class</span>
+<span class="sd">            :param search_text: Specify the ticker or index for which we want to get data</span>
+
+<span class="sd">            :return: The ohlc data for a given ticker or index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">search_text</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/search/autocomplete&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+
+<div class="viewcode-block" id="NSEBase.get_nse_turnover">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.get_nse_turnover">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_nse_turnover</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The `get_nse_turnover` provides the entire turnover happened in NSE exchange for the day / previous trading</span>
+<span class="sd">            session as DataFrame.</span>
+
+<span class="sd">           :param self: Represent the instance of the class</span>
+
+<span class="sd">           :return: The exchange turnover data in the DataFrame format</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/market-turnover&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="NSEBase.get_nse_equity_meta_info">
+<a class="viewcode-back" href="../../Base.html#Base.NSEBase.NSEBase.get_nse_equity_meta_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_nse_equity_meta_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="n">ticker</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit_and_get_data</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_url</span><span class="si">}</span><span class="s1">/api/equity-meta-info&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sampad Hegde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
