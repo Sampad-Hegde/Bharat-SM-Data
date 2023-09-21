@@ -1,2 +1,5 @@
 sphinx>=7.2.0
 sphinx-rtd-theme>=1.3.0
+--index-url https://test.pypi.org/simple/
+--extra-index-url https://pypi.org/simple/
+Bharat-sm-data==1.0.1
