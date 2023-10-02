@@ -1,7 +1,7 @@
 # Bharat (India) Stock Market Data Collection / Fetch Library
 
 <p align="center">
-  <img src="https://github.com/Sampad-Hegde/Bharat-SM-Data/blob/master/Logo.png" alt="Logo" width="500" height="400">
+  <img src="https://github.com/Sampad-Hegde/Bharat-SM-Data/raw/master/Logo.png" alt="Logo" width="500" height="400">
 </p>
 
 ## !!! Disclaimer !!!
