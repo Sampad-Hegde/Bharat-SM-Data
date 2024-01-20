@@ -1,5 +1,7 @@
 # Bharat (India) Stock Market Data Collection / Fetch Library
 
+Bharat_SM_Data stands for Bharat(India) Stock Market Data.
+
 <p align="center">
   <img src="https://github.com/Sampad-Hegde/Bharat-SM-Data/raw/master/Logo.png" alt="Logo" width="500" height="400">
 </p>
@@ -75,6 +77,7 @@ Refer below example Jupyter Notebooks to get know how to use this library :
   - Equity Meta data
   - NSE turn-over for the day
   - OHLC data
+
 - Technical Data:
   - Important NSE Reports   
   - All indices data
@@ -87,6 +90,7 @@ Refer below example Jupyter Notebooks to get know how to use this library :
   - ETF
   - Block Deals
   - VIX
+
 - Derivatives (Applicable for both Index and Equity options):
   - Options Expiry Dates
   - Option Chain
@@ -99,6 +103,7 @@ Refer below example Jupyter Notebooks to get know how to use this library :
   - Currency and commodities Futures
   - Currency and commodities Future contracts OHLC
   - Option Chain with Greeks (From Sensibull)
+
 - Fundamentals :
   - Moneycontrol :
     - Mini Statements from Moneycontrol (some commonly used data out of `annual reports` of few timeframes)
@@ -132,6 +137,8 @@ Refer below example Jupyter Notebooks to get know how to use this library :
     - Key Ratios of Stocks and Indices
     - All ETFs under an Index
     - Tickertape Screeners
+  - BSE :
+    - Download Annual Reports in PDF format
 
 ## License
 

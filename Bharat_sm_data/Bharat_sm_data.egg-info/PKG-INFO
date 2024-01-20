@@ -1,13 +1,12 @@
 Metadata-Version: 2.1
 Name: Bharat-sm-data
-Version: 1.0.0
-Summary: Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity (both Technical and Fundamentals), Commodities, Currencies from NSE, MoneyControl and Tickertape websites
+Version: 2.0.0
+Summary: Bharat SM Data stands for Bharat(India) Stock Market Data.
 Home-page: https://github.com/Sampad-Hegde/Bharat-SM-Data
 Author: Sampad Hegde
 Author-email: me@sampadhegde.in
 License: Apache License 2.0
 Project-URL: Documentation, https://bharat-sm-data.readthedocs.io/en/latest/
-Platform: UNKNOWN
 Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Programming Language :: Python :: 3.8
 Classifier: Operating System :: OS Independent
@@ -17,6 +16,12 @@ Provides-Extra: dev
 License-File: LICENSE
 
 # Bharat (India) Stock Market Data Collection / Fetch Library
+
+Bharat_SM_Data stands for Bharat(India) Stock Market Data.
+
+<p align="center">
+  <img src="https://github.com/Sampad-Hegde/Bharat-SM-Data/raw/master/Logo.png" alt="Logo" width="500" height="400">
+</p>
 
 ## !!! Disclaimer !!!
 **Disclaimer: Use Caution and Consider Legal Implications**
@@ -48,6 +53,8 @@ to unlock new opportunities in the ever-evolving landscape of the Indian financi
 Start scraping today and gain a competitive edge in your financial ventures!
 💼📊🚀
 
+### Documentation : [Readthedoc](https://bharat-sm-data.readthedocs.io/en/latest/index.html)
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -69,6 +76,8 @@ pip install Bharat-sm-data
 
 ## Usage
 
+### Read the Documentation here: [Readthedoc](https://bharat-sm-data.readthedocs.io/en/latest/index.html)
+
 Refer below example Jupyter Notebooks to get know how to use this library :
 - [NSE Technical](https://github.com/Sampad-Hegde/Bharat-SM-Data/blob/master/examples/Technical_NSE.ipynb)
 - [NSE Derivatives](https://github.com/Sampad-Hegde/Bharat-SM-Data/blob/master/examples/Derivatives_NSE.ipynb)
@@ -78,6 +87,13 @@ Refer below example Jupyter Notebooks to get know how to use this library :
  
 
 ## Features
+
+- Some basic NSE Data:
+  - Last Traded date of Exchange
+  - Current Market Status (open/close) and a Nifty 50 current value.
+  - Equity Meta data
+  - NSE turn-over for the day
+  - OHLC data
 
 - Technical Data:
   - Important NSE Reports   
@@ -91,6 +107,7 @@ Refer below example Jupyter Notebooks to get know how to use this library :
   - ETF
   - Block Deals
   - VIX
+
 - Derivatives (Applicable for both Index and Equity options):
   - Options Expiry Dates
   - Option Chain
@@ -103,6 +120,7 @@ Refer below example Jupyter Notebooks to get know how to use this library :
   - Currency and commodities Futures
   - Currency and commodities Future contracts OHLC
   - Option Chain with Greeks (From Sensibull)
+
 - Fundamentals :
   - Moneycontrol :
     - Mini Statements from Moneycontrol (some commonly used data out of `annual reports` of few timeframes)
@@ -136,6 +154,8 @@ Refer below example Jupyter Notebooks to get know how to use this library :
     - Key Ratios of Stocks and Indices
     - All ETFs under an Index
     - Tickertape Screeners
+  - BSE :
+    - Download Annual Reports in PDF format
 
 ## License
 
@@ -155,4 +175,3 @@ Connect Me over:
 - LinkedIn [sampad-hegde](https://www.linkedin.com/in/sampad-hegde)
 - Instagram [@sampad_hegde](https://www.instagram.com/sampad_hegde)
 - Facebook [sampad.hegde](https://www.facebook.com/sampad.hegde)
-
