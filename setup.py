@@ -6,9 +6,10 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name="Bharat_sm_data",
-    version="1.0.1",
-    description="Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity "
-                "(both Technical and Fundamentals), Commodities, Currencies from NSE, MoneyControl and "
+    version="2.0.0",
+    description="Bharat SM Data stands for Bharat(India) Stock Market Data."
+                "\nIt is a Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity "
+                "(both Technical and Fundamentals), Commodities, Currencies from NSE, BSE, MoneyControl and "
                 "Tickertape websites",
     package_dir={"": "Bharat_sm_data"},
     packages=find_packages(where="Bharat_sm_data"),

@@ -13,6 +13,7 @@ Bharat_sm_data/Bharat_sm_data.egg-info/top_level.txt
 Bharat_sm_data/Derivatives/NSE.py
 Bharat_sm_data/Derivatives/Sensibull.py
 Bharat_sm_data/Derivatives/__init__.py
+Bharat_sm_data/Fundamentals/BSE.py
 Bharat_sm_data/Fundamentals/MoneyControl.py
 Bharat_sm_data/Fundamentals/TickerTape.py
 Bharat_sm_data/Fundamentals/__init__.py
