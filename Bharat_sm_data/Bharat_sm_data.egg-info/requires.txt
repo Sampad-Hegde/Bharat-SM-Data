@@ -3,7 +3,7 @@ pandas>=2.0.3
 pydash>=7.0.6
 beautifulsoup4>=4.12.2
 numpy>=1.25.2
-html5lib>=1.0
+html5lib>=1.1
 lxml>=4.9.3
 
 [dev]

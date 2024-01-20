@@ -2,6 +2,7 @@ from datetime import datetime
 
 import pandas as pd
 import pydash as _
+import json
 
 from Base import CustomSession
 
@@ -140,10 +141,14 @@ class Sensibull(CustomSession):
             f'{self._base_url}/cache/live_derivative_prices/{ticker_data["instrument_token"]}')
         next_expiry = expiry_date.strftime('%Y-%m-%d')
         required_expiry_data = _.get(response, f"data.per_expiry_data.{next_expiry}", {})
-        get_mappings = self.hit_and_get_data(
-            f'{self._base_url}/cache/instrument_metacache/2')
-        mappings_data = _.get(get_mappings,
-                              f'derivatives.{ticker_data["tradingsymbol"]}.derivatives.{next_expiry}.options')
+
+        json_data = {'underlyer_list': [ticker_data["tradingsymbol"]]}
+        resp = self.session.post('https://api.sensibull.com/v1/instrument_metadata/', headers=self.headers,
+                                 json=json_data).json()
+        mappings_data = json.loads(_.get(resp,
+                                         f'derivatives.{ticker_data["tradingsymbol"]}'))
+        mappings_data = _.get(mappings_data, f'derivatives.{next_expiry}.options')
+
         atm_strike = _.get(required_expiry_data, 'atm_strike')
         sorted_mappings_data_keys = sorted(list(mappings_data.keys()))
         atm_index = sorted_mappings_data_keys.index(str(atm_strike))

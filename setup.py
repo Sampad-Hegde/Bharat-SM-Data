@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name="Bharat_sm_data",
-    version="1.0.0",
+    version="1.0.1",
     description="Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity "
                 "(both Technical and Fundamentals), Commodities, Currencies from NSE, MoneyControl and "
                 "Tickertape websites",
