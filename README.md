@@ -2,6 +2,10 @@
 
 Bharat_SM_Data stands for Bharat(India) Stock Market Data.
 
+```shell
+pip install Bharat-sm-data
+```
+
 <p align="center">
   <img src="https://github.com/Sampad-Hegde/Bharat-SM-Data/raw/master/Logo.png" alt="Logo" width="500" height="400">
 </p>
