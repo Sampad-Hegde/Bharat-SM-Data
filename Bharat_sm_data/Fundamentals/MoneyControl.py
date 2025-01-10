@@ -8,6 +8,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from pydash.collections import find
 
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Base import CustomSession
 
 warnings.filterwarnings('ignore')
@@ -46,8 +49,7 @@ class MoneyControl(CustomSession):
             'Accept': 'application/json, text/plain, */*',
             'Referer': '',
             'accept-version': '7.9.0',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/108.0.0.0 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0'
         })
         self._base_url = 'https://www.moneycontrol.com'
         self.hit_and_get_data(f'{self._base_url}/')
@@ -587,3 +589,7 @@ class MoneyControl(CustomSession):
         response = self.session.get(f'{data_url}', headers=self.headers)
         df = pd.read_html(io.StringIO(response.text))[0]
         return df
+    
+
+
+mc = MoneyControl()
