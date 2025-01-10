@@ -587,6 +587,3 @@ class MoneyControl(CustomSession):
         df = pd.read_html(io.StringIO(response.text))[0]
         return df
     
-
-
-mc = MoneyControl()
