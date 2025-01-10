@@ -17,7 +17,7 @@ twine check dist/*
 
 # To publish to test-PYPI:
 ```shell
-twine upload -r testpypi build/Bharat_sm_data-<version>*
+twine upload -r testpypi dist/Bharat_sm_data-<version>*
 ```
 
 # Testing Test-pypi package

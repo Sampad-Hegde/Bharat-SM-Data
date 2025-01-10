@@ -76,7 +76,7 @@ class NSEBase(CustomSession):
         """
         response = self.hit_and_get_data(f'{self._base_url}/api/marketStatus').get('marketState')
         last_traded = _.get(_.find(response, {'index': 'NIFTY 50'}), 'tradeDate')
-        return datetime.strptime(last_traded, '%d-%b-%Y').date()
+        return datetime.strptime(last_traded, '%d-%b-%Y %H:%M').date()
 
     # ----------------------------------------------------------------------------------------------------------------
     # Common Functions - works for both Equity as well index-related data fetches
@@ -167,7 +167,7 @@ class NSEBase(CustomSession):
            :return: The exchange turnover data in the DataFrame format
        """
 
-        response = self.hit_and_get_data(f'{self._base_url}/api/market-turnover')
+        response = self.hit_and_get_data(f'{self._base_url}/api/market-turnover-popup')
         df = pd.DataFrame(pd.json_normalize(response['data'], sep='_'))
         return df
 

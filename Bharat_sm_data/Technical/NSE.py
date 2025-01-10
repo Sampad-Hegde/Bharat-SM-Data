@@ -167,10 +167,10 @@ class NSE(NSEBase):
         for ticker in tickers:
             params = {
                 'symbol': ticker,
-                'section': 'corp_info'
+                'market': 'equities'
             }
-            response = self.hit_and_get_data(f'{self._base_url}/api/quote-equity', params=params)
-            data[ticker] = response.get('corporate', {})
+            response = self.hit_and_get_data(f'{self._base_url}/api/top-corp-info', params=params)
+            data[ticker] = response
         return data
 
     def get_sme_stocks(self):
@@ -235,6 +235,12 @@ class NSE(NSEBase):
 
             :return: DataFrame containing the India VIX data for last 2months or ~1780 OHLCV datapoints
         """
-
-        return self.get_ohlc_data('INDIA VIX', timeframe=interval)
-
+        print("INDIA VIX is No Longer Available on NSE India :( ")
+        print("Please Use INDIA VIX from MONEYCONTROL")
+        print("""
+        from Fundamentals import MoneyControl
+        moneycontrol = MoneyControl()
+        moneycontrol.get_india_vix(interval='1') # Only `1d` (for day interval) or `1`  (for minute interval) is supported
+        """)    
+        # return self.get_ohlc_data('INDIA VIX', timeframe=interval)
+        return pd.DataFrame()

@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name="Bharat_sm_data",
-    version="2.0.0",
+    version="2.1.0",
     description="Bharat SM Data stands for Bharat(India) Stock Market Data."
                 "\nIt is a Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity "
                 "(both Technical and Fundamentals), Commodities, Currencies from NSE, BSE, MoneyControl and "
@@ -24,7 +24,7 @@ setup(
     license="Apache License 2.0",
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.7",
         "Operating System :: OS Independent",
     ],
     install_requires=[
@@ -40,7 +40,7 @@ setup(
     extras_require={
         "dev": ["twine>=4.0.2"],
     },
-    python_requires=">=3.8",
+    python_requires=">=3.7",
     project_urls={
         "Documentation": "https://bharat-sm-data.readthedocs.io/en/latest/"
     },

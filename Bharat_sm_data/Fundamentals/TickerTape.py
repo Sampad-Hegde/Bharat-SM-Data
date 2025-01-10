@@ -358,7 +358,6 @@ class Tickertape(CustomSession):
         data = json.loads(sp_div.contents[0].text)
         data = data.get('props').get('pageProps').get('securityInfo').get('ratios')
         df = pd.DataFrame([data])
-        df['ticker'] = ticker
         return df.T
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -433,7 +432,7 @@ class Tickertape(CustomSession):
                 'sortBy': sortby,
                 'sortOrder': -1,
                 'project': filters,
-                'offset': page * 20,
+                'offset': (page - 1) * 20,
                 'count': 20,
                 'sids': [],
             }
