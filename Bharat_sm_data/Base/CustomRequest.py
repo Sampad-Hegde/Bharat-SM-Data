@@ -33,7 +33,7 @@ class CustomSession:
             Exception: If there is an error in connecting to the URL
     """
 
-    def __init__(self, headers: dict = None) -> None:
+    def __init__(self, headers: dict = None, cookies: dict = None) -> None:
         """
             It's a custom class that does the common functionalities creating a session object with Retries, timeouts,
             builds from the headers, etc.
@@ -41,6 +41,7 @@ class CustomSession:
             :param self: Represent the instance of the class
             :param headers: (optional) headers required for getting data from a website via api. This is required
              because most of the websites require headers since they validate few to identify it is genuinely used
+            :param cookies: (optional) cookies for session-based authentication.
 
             :return: None
         """
@@ -50,6 +51,8 @@ class CustomSession:
             self.headers = headers
         else:
             self.headers = {}
+
+        self.cookies = cookies if cookies else {}
 
         retries = Retry(total=3,
                         backoff_factor=0.1,
@@ -83,9 +86,9 @@ class CustomSession:
 
         try:
             if params:
-                return self.session.get(url, params=params, headers=self.headers).json()
+                return self.session.get(url, params=params, headers=self.headers, cookies=self.cookies).json()
             else:
-                return self.session.get(url, headers=self.headers).json()
+                return self.session.get(url, headers=self.headers, cookies=self.cookies).json()
         except json.JSONDecodeError:
             return {}
         except Exception as err:
