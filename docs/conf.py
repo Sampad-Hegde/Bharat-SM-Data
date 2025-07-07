@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath('../Bharat_sm_data/Base'))
 project = 'Bharat (INDIA) Stock market Data Collection Library'
 copyright = '2023, Sampad Hegde'
 author = 'Sampad Hegde'
-release = '1.0.0'
+release = '4.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
