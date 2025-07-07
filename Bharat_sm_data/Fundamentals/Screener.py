@@ -9,9 +9,56 @@ from Base import CustomSession
 
 
 class Screener(CustomSession):
+    """
+    The Screener class is used to interact with the Screener.in website to fetch financial data for companies.
+    It allows users to log in, search for companies, and retrieve various financial tables such as quarterly results,
+    profit and loss statements, balance sheets, cash flow statements, ratios, and shareholding patterns.
+    It also provides methods to fetch company textual data and perform ticker searches.
+
+    Attributes:
+        username (str): The username for logging into Screener.in.
+        password (str): The password for logging into Screener.in.
+    
+    Methods:
+        __init__(username: str, password: str) -> None:
+            Initializes the Screener class with a session and CSRF token for login.
+        get_ticker(symbol_name: str) -> list:
+            Fetches the ticker symbol for a given company name from Screener.
+        get_company_textual_data(ticker: str) -> str:
+            Fetches the textual data of a company from Screener.
+        get_base_tables(ticker_url: str, table: str) -> pd.DataFrame:
+            Fetches the key points table for a given ticker URL.
+        get_quarterly_results(ticker_url: str) -> pd.DataFrame:
+            Fetches the quarterly results table for a given ticker URL.
+        get_profit_and_loss(ticker_url: str) -> pd.DataFrame:
+            Fetches the Profit & Loss table for a given ticker URL.
+        get_balance_sheet(ticker_url: str) -> pd.DataFrame:
+            Fetches the Balance Sheet table for a given ticker URL.
+        get_cash_flow(ticker_url: str) -> pd.DataFrame:
+            Fetches the Cash Flow table for a given ticker URL.
+        get_ratios(ticker_url: str) -> pd.DataFrame:
+            Fetches the Ratios table for a given ticker URL.
+        get_shareholding_pattern(ticker_url: str) -> pd.DataFrame:
+            Fetches the Shareholding Pattern table for a given ticker URL.
+        get_peers_comparison(ticker_url: str) -> pd.DataFrame:
+            Fetches the peers comparison table for a given ticker URL.
+        get_chart_data(ticker_url: str, timeframe: str = '1d', start_date: str = None, end_date: str = None) -> pd.DataFrame:
+            Fetches the chart data for a given ticker URL and timeframe.
+        get_screeners() -> list:
+            Fetches the list of available screeners from Screener.in.
+        get_query_from_pre_screens_feed(ticker_url: str) -> str:
+            Fetches the query from the pre-screens feed for a given ticker URL.
+        get_all_industries() -> list:
+            Fetches the list of all industries available on Screener.in.
+        get_industry_wise_data(industry_url: str) -> pd.DataFrame:
+            Fetches the industry-wise Stocks for a given industry URL.
+        get_concall_list(ticker_url: str) -> pd.DataFrame:
+            Fetches the concall list for a given ticker URL.
+    """
     def __init__(self, username: str, password: str) -> None:
         """
         Initializes the Screener class with a session and CSRF token for login.
+        
         :param username: The username for login.
         :param password: The password for login.
         """
@@ -60,7 +107,9 @@ class Screener(CustomSession):
     def get_ticker(self, symbol_name: str) -> list:
         """
         Fetches the ticker symbol for a given company name from Screener.
+
         :param symbol_name: The name of the company to fetch the ticker for (some prefix string to search).
+
         :return: The ticker symbol of the company.
         """
         params = {
@@ -77,7 +126,9 @@ class Screener(CustomSession):
     def get_company_textual_data(self, ticker: str) -> str:
         """
         Fetches the textual data of a company from Screener.
+
         :param company_name: The name of the company to fetch data for.
+
         :return: The textual data of the company.
         """
         if not self._login_csrf_token:
@@ -99,8 +150,10 @@ class Screener(CustomSession):
     def get_base_tables(self, ticker_url: str, table: str) -> pd.DataFrame:
         """
         Fetches the key points table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
         :param table: The type of table to fetch (e.g., 'Quarterly Results', 'Profit & Loss', etc.).
+
         :return: A DataFrame containing the key points table.
         """
         order = ['Quarterly Results', 'Profit & Loss', 'Compounded Sales Growth', 'Compounded Profit Growth', 'Stock Price CAGR',  'Return on Equity', 'Balance Sheet', 'Cash Flow', 'Ratios', 'Shareholding Pattern', 'ALL']
@@ -117,7 +170,9 @@ class Screener(CustomSession):
     def get_quarterly_results(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the quarterly results table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the quarterly results table.
         """
         base_df, company_id = self.get_base_tables(ticker_url, 'Quarterly Results')
@@ -159,7 +214,9 @@ class Screener(CustomSession):
     def get_profit_and_loss(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the Profit & Loss table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the Profit & Loss table.
         """
         base_df, company_id = self.get_base_tables(ticker_url, 'Profit & Loss')
@@ -201,7 +258,9 @@ class Screener(CustomSession):
     def get_balance_sheet(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the Balance Sheet table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the Balance Sheet table.
         """
         base_df, company_id = self.get_base_tables(ticker_url, 'Balance Sheet')
@@ -244,7 +303,9 @@ class Screener(CustomSession):
     def get_cash_flow(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the Cash Flow table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the Cash Flow table.
         """
         base_df, company_id = self.get_base_tables(ticker_url, 'Cash Flow')
@@ -288,7 +349,9 @@ class Screener(CustomSession):
     def get_ratios(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the Ratios table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the Ratios table.
         """
         base_df, company_id = self.get_base_tables(ticker_url, 'Ratios')
@@ -301,7 +364,9 @@ class Screener(CustomSession):
     def get_shareholding_pattern(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the Shareholding Pattern table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the Shareholding Pattern table.
         """
         base_df, company_id = self.get_base_tables(ticker_url, 'Shareholding Pattern')
@@ -326,7 +391,9 @@ class Screener(CustomSession):
     def get_peers_comparison(self, ticker_url: str) -> pd.DataFrame:
         """
         Fetches the peers comparison table for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: A DataFrame containing the peers comparison table.
         """
         response = self.session.get(self.base_url+ticker_url, headers=self.headers)
@@ -348,9 +415,11 @@ class Screener(CustomSession):
     def get_chart_data(self, ticker_url: str, days=365, on='Price-DMA50-DMA200-Volume') -> pd.DataFrame:
         """
         Fetches the chart data for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
         :param days: The number of days for which to fetch the chart data (default is 365).
         :param on: The type of chart data to fetch (default is 'Price-DMA50-DMA200-Volume').
+
         :return: A DataFrame containing the chart data.
         """
         valid_on_options = ['Price-DMA50-DMA200-Volume', 'Price to Earning-Median PE-EPS', 'GPM-OPM-NPM-Quarter Sales', 'EV Multiple-Median EV Multiple-EBITDA', 'Price to book value-Median PBV-Book value', 'Market Cap to Sales-Median Market Cap to Sales-Sales']
@@ -385,6 +454,7 @@ class Screener(CustomSession):
     def get_screens(self) -> list:
         """
         Fetches the list of screens available on Screener tab Feeds.
+
         :return: A list of screens.
         """
         response = self.session.get(f'{self.base_url}/explore', headers=self.headers)
@@ -400,7 +470,9 @@ class Screener(CustomSession):
     def get_query_from_pre_screens_feed(self, screen_url: str) -> str:
         """
         Fetches the query from a pre-defined screen URL.
+
         :param screen_url: The URL of the pre-defined screen.
+
         :return: The query string used in the screen.
         """
         response = self.session.get(f'{self.base_url}{screen_url}', headers=self.headers)
@@ -414,7 +486,9 @@ class Screener(CustomSession):
     def get_data_from_screen_query(self, query: str, columns: list=[]) -> pd.DataFrame:
         """
         Fetches data from a screen query.
+
         :param query: The query string to fetch data for.
+
         :return: A DataFrame containing the data from the screen query.
         """
         if len(columns) > 0:
@@ -460,6 +534,7 @@ class Screener(CustomSession):
     def get_all_industries(self) -> list:
         """
         Fetches all industries available on Screener.
+
         :return: A list of industries.
         """
         response = self.session.get(f'{self.base_url}/market/', headers=self.headers)
@@ -485,7 +560,9 @@ class Screener(CustomSession):
     def get_industry_wise_data(self, industry_url: str) -> pd.DataFrame:
         """
         Fetches data for a specific industry from Screener.
+
         :param industry_url: The URL of the industry page.
+
         :return: A DataFrame containing the industry data.
         """
         response = self.session.get(f'{self.base_url}{industry_url}', headers=self.headers)
@@ -534,7 +611,9 @@ class Screener(CustomSession):
     def get_cocalls_link(self, ticker_url: str) -> str:
         """
         Fetches the CoCalls link for a given ticker URL.
+
         :param ticker_url: The URL of the company's ticker page.
+
         :return: The CoCalls link for the company.
         """
         response = self.session.get(self.base_url+ticker_url, headers=self.headers)

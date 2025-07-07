@@ -1,5 +1,5 @@
 Bharat (India) Stock Market Data
-=========
+=================================
 
 .. toctree::
    :maxdepth: 4

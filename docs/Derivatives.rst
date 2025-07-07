@@ -9,13 +9,21 @@ Derivatives.NSE module
 
 .. automodule:: Derivatives.NSE
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Derivatives.Sensibull module
 ----------------------------
 
 .. automodule:: Derivatives.Sensibull
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: Derivatives
+   :members:
+   :show-inheritance:
+   :undoc-members:
