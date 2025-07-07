@@ -1,4 +1,5 @@
 from datetime import datetime
+from io import StringIO
 
 import pandas as pd
 import pydash as _
@@ -19,6 +20,10 @@ class NSEBase(CustomSession):
             get_second_wise_data(ticker_or_index: str = "NIFTY 50", is_index: bool = True, underlying_symbol: str = None) -> pd.DataFrame: Returns a dataframe with second wise data for a given index or stock.
             get_ohlc_data(ticker_or_idx: str = "NIFTY 50", timeframe: str = '5Min', is_index: bool = True, underlying_symbol: str = None) -> pd.DataFrame: Returns the OHLC data for a given ticker or index.
             search(search_text: str) -> dict: Searches for data related to an equity, derivative, or any type of asset traded on NSE.
+            get_nse_turnover() -> pd.DataFrame: Provides the entire turnover happened in NSE exchange for the day or previous trading session as DataFrame.
+            get_nse_equity_meta_info(ticker: str) -> dict: Returns the equity meta information for a given ticker.
+            get_ohlc_from_charting(ticker: str, timeframe: str, start_date: datetime, end_date: datetime) -> pd.DataFrame: Returns a DataFrame containing the OHLC data for a given ticker and timeframe from new Charting Website of NSE (https://charting.nseindia.com).  
+            get_charting_mappings() -> pd.DataFrame: Returns a DataFrame containing the mappings for charting for all Equity and F&O instruments from the new Charting Website of NSE (https://charting.nseindia.com).
     """
 
     def __init__(self):
@@ -46,7 +51,9 @@ class NSEBase(CustomSession):
         })
         
         self._base_url = 'https://www.nseindia.com'
-        self.hit_and_get_data(self._base_url)  
+        self._charting_base_url = 'https://charting.nseindia.com'
+        self.hit_and_get_data(self._base_url)
+        self.hit_and_get_data(f'{self._charting_base_url}')
         # This will call the main website and sets cookies into a session object if available
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -95,6 +102,9 @@ class NSEBase(CustomSession):
 
             :return: A dataframe with second wise data
         """
+         # set the cookies
+        self.hit_and_get_data(f'{self._base_url}/get-quotes/equity', params={'symbol': ticker_or_index})
+
         if not ticker_or_index.endswith('EQN') and not is_index:
             ticker_or_index += 'EQN'
 
@@ -107,9 +117,13 @@ class NSEBase(CustomSession):
         response = self.hit_and_get_data(f'{self._base_url}/api/chart-databyindex', params=params)
         params['preopen'] = True
         pre_response = self.hit_and_get_data(f'{self._base_url}/api/chart-databyindex', params=params)
-
+        datapoint_size = 2
+        try:
+            datapoint_size = len(response.get('grapthData', [])[0])
+        except:
+            pass
         df = pd.DataFrame(_.get(pre_response, 'grapthData', []) + _.get(response, 'grapthData', []),
-                          columns=['timestamp', 'price'])
+                          columns=['timestamp', 'price'] if datapoint_size == 2 else ['timestamp', 'price', 'market_time'])
         df['timestamp'] = df['timestamp'] / 1000
         df['timestamp'] = df['timestamp'].apply(datetime.fromtimestamp)
         df['timestamp'] = df['timestamp'] - pd.Timedelta(hours=5, minutes=30)
@@ -167,13 +181,90 @@ class NSEBase(CustomSession):
            :return: The exchange turnover data in the DataFrame format
        """
 
-        response = self.hit_and_get_data(f'{self._base_url}/api/market-turnover-popup')
-        df = pd.DataFrame(pd.json_normalize(response['data'], sep='_'))
+        response = self.hit_and_get_data(f'{self._base_url}/api/NextApi/apiClient', params={'functionName':'getMarketTurnoverSummary'})
+        data = []
+        for key in response.get('data', {}):
+            try:
+                data = data + response.get('data', {}).get(key, [])
+            except:
+                pass
+        df = pd.DataFrame(data)
         return df
 
     def get_nse_equity_meta_info(self, ticker: str) -> dict:
         params = {
             'symbol': ticker,
         }
+        # set the cookies
+        self.hit_and_get_data(f'{self._base_url}/get-quotes/equity', params=params)
+
         response = self.hit_and_get_data(f'{self._base_url}/api/equity-meta-info', params=params)
         return response
+
+    def get_ohlc_from_charting(self, ticker: str, timeframe: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
+        """
+            The get_ohlc_from_charting function returns a DataFrame containing the OHLC data for a given ticker and
+            timeframe.
+
+            :param self: Represent the instance of the class
+            :param ticker: Specify the ticker for which we want to get the data (!! Its not same as NSE website ticker, Get the mapping from `get_charting_mappings()` function !!)
+            :param timeframe: Specify the time interval for which we want to get the data
+            :param start_date: Specify the start date of the data
+            :param end_date: Specify the end date of the data
+            :return: A DataFrame containing OHLC data for a given ticker and timeframe
+        """
+
+        time_mappings = {
+            '1Min': ('I', 1),
+            '5Min': ('I', 5),
+            '15Min': ('I', 15),
+            '30Min': ('I', 30),
+            '60Min': ('I', 60),
+            '1Day': ('D', 1),
+            '1Week': ('W', 1),
+            '1Month': ('M', 1),
+        }
+        if timeframe not in time_mappings:
+            raise ValueError(f"Unsupported timeframe: {timeframe}; supported timeframes are {list(time_mappings.keys())}")
+        params = {
+            'tradingSymbol': ticker,
+            'exch': 'N',
+            'chartStart': 0,
+            'chartPeriod': time_mappings[timeframe][0],
+            'timeInterval': time_mappings[timeframe][1],
+            'fromDate':int(start_date.timestamp()),
+            'toDate': int(end_date.timestamp())
+        }
+
+        
+        # Set the cookies
+        self.hit_and_get_data(f'{self._charting_base_url}', params={'symbol': ticker})
+
+
+
+        response = self.hit_and_get_data(f'{self._charting_base_url}//Charts/ChartData', params=params)
+        df = pd.DataFrame({
+            'timestamp': response.get('t', []),
+            'open': response.get('o', []),
+            'high': response.get('h', []),
+            'low': response.get('l', []),
+            'close': response.get('c', []),
+            'volume': response.get('v', [])
+        })
+        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='s')
+        return df
+
+    def get_charting_mappings(self) -> pd.DataFrame:
+        """
+            The get_charting_mappings function returns a dictionary containing the mappings for charting.
+
+            :param self: Represent the instance of the class
+
+            :return: A DataFrame containing the mappings for charting for all Equity and F&O instruments
+        """
+        
+        url_endpoints = ['/Charts/GetEQMasters', '/Charts/GetFOMasters']
+        df = pd.DataFrame()
+        for endpoint in url_endpoints:
+            df = pd.concat([df, pd.read_csv(StringIO(self.session.get(f'{self._charting_base_url}{endpoint}', headers=self.headers).text), sep='|')], ignore_index=True)
+        return df

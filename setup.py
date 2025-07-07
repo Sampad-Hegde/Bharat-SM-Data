@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name="Bharat_sm_data",
-    version="3.0.0",
+    version="4.0.0",
     description="Bharat SM Data stands for Bharat(India) Stock Market Data."
                 "\nIt is a Bharat (India) Stock Market Data Fetch Library for all kind of data, Derivatives, Equity "
                 "(both Technical and Fundamentals), Commodities, Currencies from NSE, BSE, MoneyControl and "
@@ -28,6 +28,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
+        'Brotli>=1.0.0',
         'requests>=2.31.0',
         'pandas>=2.0.3',
         'pydash>=7.0.6',

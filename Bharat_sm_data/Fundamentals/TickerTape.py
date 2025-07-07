@@ -30,7 +30,7 @@ class Tickertape(CustomSession):
             get_mutual_fund_holdings : Get the mutual fund holdings for a given ticker
     """
 
-    def __init__(self) -> None:
+    def __init__(self, custom_headers: dict=None, custom_cookies: dict=None) -> None:
         """
             The __init__ function is called when the class is instantiated.
             It's a special function in Python classes, and it makes sure that every time you create a new instance of
@@ -38,17 +38,24 @@ class Tickertape(CustomSession):
             the __init__ function gets called automatically to set up the attributes with their initial values.
 
             :param self: Represent the instance of the class
+            :param custom_headers: (optional) Allow the user to pass custom headers to the session
+            :param custom_cookies: (optional) Allow the user to pass custom cookies to the session
 
             :return: The session and headers
         """
-
-        super().__init__(headers={
+        self.headers = {
             'Accept': 'application/json, text/plain, */*',
             'Referer': '',
             'accept-version': '7.9.0',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/108.0.0.0 Safari/537.36'
-        })
+        }
+        if custom_headers:
+            self.headers.update(custom_headers)
+
+        super().__init__(headers=self.headers)
+        if custom_cookies:
+            self.session.cookies.update(self.cookies)
         self._base_url = 'https://api.tickertape.in'
         self.valid_horizons = ['interim', 'annual']
         self.valid_search_places = ['stock', 'index', 'etf', 'mutualfund', 'space', 'profile', 'smallcase']

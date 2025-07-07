@@ -1,6 +1,6 @@
-Metadata-Version: 2.1
-Name: Bharat-sm-data
-Version: 2.0.0
+Metadata-Version: 2.2
+Name: Bharat_sm_data
+Version: 4.0.0
 Summary: Bharat SM Data stands for Bharat(India) Stock Market Data.
 Home-page: https://github.com/Sampad-Hegde/Bharat-SM-Data
 Author: Sampad Hegde
@@ -8,16 +8,41 @@ Author-email: me@sampadhegde.in
 License: Apache License 2.0
 Project-URL: Documentation, https://bharat-sm-data.readthedocs.io/en/latest/
 Classifier: License :: OSI Approved :: Apache Software License
-Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.7
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.8
+Requires-Python: >=3.7
 Description-Content-Type: text/markdown
-Provides-Extra: dev
 License-File: LICENSE
+Requires-Dist: Brotli>=1.0.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pandas>=2.0.3
+Requires-Dist: pydash>=7.0.6
+Requires-Dist: beautifulsoup4>=4.12.2
+Requires-Dist: numpy>=1.25.2
+Requires-Dist: html5lib>=1.1
+Requires-Dist: lxml>=4.9.3
+Provides-Extra: dev
+Requires-Dist: twine>=4.0.2; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
 
 # Bharat (India) Stock Market Data Collection / Fetch Library
 
 Bharat_SM_Data stands for Bharat(India) Stock Market Data.
+
+```shell
+pip install Bharat-sm-data
+```
 
 <p align="center">
   <img src="https://github.com/Sampad-Hegde/Bharat-SM-Data/raw/master/Logo.png" alt="Logo" width="500" height="400">

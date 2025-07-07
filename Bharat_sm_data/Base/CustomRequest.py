@@ -1,5 +1,5 @@
 import json
-
+import brotli
 from requests import Session, session
 from requests.adapters import HTTPAdapter, Retry
 
@@ -83,9 +83,18 @@ class CustomSession:
 
         try:
             if params:
-                return self.session.get(url, params=params, headers=self.headers).json()
+                response =  self.session.get(url, params=params, headers=self.headers)
             else:
-                return self.session.get(url, headers=self.headers).json()
+                response =  self.session.get(url, headers=self.headers)
+            encoding = response.headers.get('Content-Encoding', '')
+            if encoding == 'br':
+                try:
+                    data = brotli.decompress(response.content).decode("utf-8")
+                except brotli.error:
+                    data = response.content.decode("utf-8")
+            else:
+                data = response.text
+            return json.loads(data)
         except json.JSONDecodeError:
             return {}
         except Exception as err:

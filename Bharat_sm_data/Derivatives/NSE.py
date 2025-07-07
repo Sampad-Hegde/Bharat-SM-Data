@@ -40,12 +40,14 @@ class NSE(NSEBase):
         """
 
         super().__init__()
+        self.headers['Referer'] = 'https://www.nseindia.com/option-chain'
+        self.hit_and_get_data(f'{self._base_url}/option-chain')
         self.valid_pcr_fields = ['oi', 'volume']
 
     # ----------------------------------------------------------------------------------------------------------------
     # Utility Functions
 
-    def get_option_chain(self, ticker: str, is_index: bool = True, expiry: datetime = None) -> pd.DataFrame:
+    def get_option_chain(self, ticker: str, expiry: datetime, is_index: bool = True) -> pd.DataFrame:
         """
             The get_option_chain function takes a ticker as input and returns the option chain for that ticker. The
             function uses the try_n_times_get_response function to get a response from NSE's API, which is then converted
@@ -61,22 +63,19 @@ class NSE(NSEBase):
             :return: A dataframe with option chain
         """
 
-        params = {'symbol': ticker}
+        params = {'symbol': ticker, 'expiry': expiry.strftime('%d-%b-%Y')}
+        url = f'{self._base_url}/api/option-chain-v3'
 
         if is_index:
-            url = f'{self._base_url}/api/option-chain-indices'
+            params['type'] = 'Indices'
         else:
-            url = f'{self._base_url}/api/option-chain-equities'
+            params['type'] = 'Equity'
 
         response = self.hit_and_get_data(url, params=params)
-        if expiry is None:
-            df = pd.DataFrame(pd.json_normalize(_.get(response, 'filtered.data', {}), sep='_')).set_index('strikePrice')
-        else:
-            df = pd.DataFrame(pd.json_normalize(_.get(response, 'records.data', {}), sep='_')).set_index('strikePrice')
-            df = df[df['expiryDate'] == expiry.strftime('%d-%b-%Y')]
+        df = pd.DataFrame(pd.json_normalize(_.get(response, 'records.data', {}), sep='_')).set_index('strikePrice')
         return df
 
-    def get_raw_option_chain(self, ticker: str, is_index: bool = True) -> dict:
+    def get_raw_option_chain(self, ticker: str, expiry: datetime, is_index: bool = True) -> dict:
         """
             The get_option_chain function takes a ticker as input and returns the option chain for that ticker.
             The function uses the try_n_times_get_response function to get a response from NSE's API, which is
@@ -89,12 +88,13 @@ class NSE(NSEBase):
             :return: A dataframe with option chain data
         """
 
-        params = {'symbol': ticker}
+        params = {'symbol': ticker, 'expiry': expiry.strftime('%d-%b-%Y')}
+        url = f'{self._base_url}/api/option-chain-v3'
 
         if is_index:
-            url = f'{self._base_url}/api/option-chain-indices'
+            params['type'] = 'indices'
         else:
-            url = f'{self._base_url}/api/option-chain-equities'
+            params['type'] = 'Equity'
 
         response = self.hit_and_get_data(url, params=params)
         return response
@@ -114,12 +114,12 @@ class NSE(NSEBase):
 
         params = {'symbol': ticker}
         if is_index:
-            url = f'{self._base_url}/api/option-chain-indices'
+            url = f'{self._base_url}/api/option-chain-contract-info'
         else:
-            url = f'{self._base_url}/api/option-chain-equities'
+            url = f'{self._base_url}/api/option-chain-contract-info'
         response = self.hit_and_get_data(url, params=params)
         dates = sorted([datetime.strptime(date_str, "%d-%b-%Y") for date_str in
-                        response.get('records', {}).get('expiryDates', [])])
+                        response.get('expiryDates', [])])
         return dates
 
     # ----------------------------------------------------------------------------------------------------------------_

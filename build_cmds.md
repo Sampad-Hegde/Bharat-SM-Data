@@ -29,5 +29,5 @@ twine upload -r testpypi dist/Bharat_sm_data-<version>*
 
 # To publish to PYPI:
 ```shell
-twine upload build/Bharat_sm_data-<version>*
+twine upload dist/Bharat_sm_data-<version>*
 ```

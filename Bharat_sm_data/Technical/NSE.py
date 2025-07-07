@@ -61,6 +61,8 @@ class NSE(NSEBase):
         """
         super().__init__()
         self._base_url = 'https://www.nseindia.com'
+        self.hit_and_get_data(self._base_url)
+
 
     def get_important_reports(self) -> dict:
         """
@@ -92,6 +94,8 @@ class NSE(NSEBase):
 
             :return: A dataframe with the following columns:
         """
+        # Set the cookies
+        self.hit_and_get_data(f'{self._base_url}/market-data/live-market-indices', params={'symbol': index})
 
         params = {
             'index': index.upper(),
@@ -112,6 +116,8 @@ class NSE(NSEBase):
 
             :return: A DataFrame of all indices traded on NSE
         """
+        # Set the cookies
+        self.hit_and_get_data(f'{self._base_url}/market-data/live-market-indices')
 
         response = self.hit_and_get_data("https://www.nseindia.com/api/allIndices")
         df = pd.DataFrame(response.get('data', {}))
@@ -138,6 +144,9 @@ class NSE(NSEBase):
             params = {
                 'symbol': ticker,
             }
+            # set the cookies
+            self.hit_and_get_data(f'{self._base_url}/get-quotes/equity', params=params)
+
             complete_equity_info = {}
             for section in ['', 'trade_info']:
                 params['section'] = section
@@ -165,6 +174,9 @@ class NSE(NSEBase):
             tickers = ticker
         data = {}
         for ticker in tickers:
+            # set the cookies
+            self.hit_and_get_data(f'{self._base_url}/get-quotes/equity', params={'symbol': ticker})
+
             params = {
                 'symbol': ticker,
                 'market': 'equities'
@@ -181,6 +193,8 @@ class NSE(NSEBase):
 
             :return: DataFrame containing SME Stocks data.
         """
+        # set the cookies
+        self.hit_and_get_data(f'{self._base_url}/market-data/sme-market')
 
         response = self.hit_and_get_data(f'{self._base_url}/api/live-analysis-emerge')
         df = pd.DataFrame(response.get('data', []))
@@ -194,6 +208,8 @@ class NSE(NSEBase):
 
             :return: DataFrame containing the trade information for SGB.
         """
+        # set the cookies
+        self.hit_and_get_data(f'{self._base_url}/market-data/sovereign-gold-bond')
 
         response = self.hit_and_get_data(f'{self._base_url}/api/sovereign-gold-bonds')
         df = pd.DataFrame(response.get('data', []))
@@ -208,6 +224,8 @@ class NSE(NSEBase):
 
             :return: DataFrame containing data of all ETFs
         """
+        # set the cookies
+        self.hit_and_get_data(f'{self._base_url}/market-data/exchange-traded-funds-etf')
 
         response = self.hit_and_get_data(f'{self._base_url}/api/etf')
         df = pd.DataFrame(response.get('data', []))
@@ -222,6 +240,8 @@ class NSE(NSEBase):
 
             :return: DataFrame containing block deals data.
         """
+        # set the cookies
+        self.hit_and_get_data(f'{self._base_url}/market-data/block-deal-watch')
 
         response = self.hit_and_get_data(f'{self._base_url}/api/block-deal')
         df = pd.DataFrame(response.get('data', []))

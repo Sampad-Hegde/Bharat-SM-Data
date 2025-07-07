@@ -15,6 +15,7 @@ Bharat_sm_data/Derivatives/Sensibull.py
 Bharat_sm_data/Derivatives/__init__.py
 Bharat_sm_data/Fundamentals/BSE.py
 Bharat_sm_data/Fundamentals/MoneyControl.py
+Bharat_sm_data/Fundamentals/Screener.py
 Bharat_sm_data/Fundamentals/TickerTape.py
 Bharat_sm_data/Fundamentals/__init__.py
 Bharat_sm_data/Technical/NSE.py

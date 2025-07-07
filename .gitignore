@@ -3,3 +3,4 @@ __pycache__
 .code
 */*.pyc
 build/
+*/.ipynb_checkpoints
