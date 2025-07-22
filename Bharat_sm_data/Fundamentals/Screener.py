@@ -499,7 +499,7 @@ class Screener(CustomSession):
             soup = BeautifulSoup(response.text, 'html.parser')
             error = soup.find('li', class_='manage-columns error')
             if error:
-                raise ValueError(f"Error: setting columns requires `Premium Account`: {error.text.strip().replace('\n: ', ' ')}")
+                raise ValueError(f"Error: setting columns requires Premium Account: {error.text.strip().replace('\n', ' ')}")
             else:
                 print("Columns set successfully.")
 
