@@ -633,3 +633,49 @@ class Screener(CustomSession):
             }
         df = pd.DataFrame.from_dict(concalls, orient='index')
         return df
+
+
+    def get_quick_ratio(self, ticker_url: str) -> dict:
+        """
+        Fetches the quick ratio for a given ticker URL (User added ratios).
+
+        :param ticker_url: The URL of the company's ticker page.
+
+        :return: A dict containing with key as the stock ticker and value of the ratio.
+        """
+        response = self.session.get(self.base_url+ticker_url, headers=self.headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        company_id = soup.find('div', {'id': 'company-info'})['data-warehouse-id']
+
+        quick_ratio_html = self.session.get(
+            url=f'{self.base_url}/api/company/{company_id}/quick_ratios/',
+            headers=self.headers
+        )
+
+        all_ratios = {}
+        if quick_ratio_html.status_code == 200:
+
+            # The API returns HTML fragments (<li> items)
+            api_soup = BeautifulSoup(quick_ratio_html.text, "html.parser")
+            items = api_soup.find_all("li")
+
+            for item in items:
+                # Parse text cleanly
+                full_text = item.get_text(" ", strip=True)
+
+                # Logic to split "Name Value"
+                # Screener usually puts the value in a <span class="number">
+                val_span = item.find("span", class_="number")
+
+                if val_span:
+                    val = val_span.text.strip()
+                    # Remove the value from the full text to get the name
+                    name = full_text.replace(val, "").strip()
+                else:
+                    # Fallback if no specific span class found
+                    parts = full_text.split()
+                    val = parts[-1] if parts else "N/A"
+                    name = " ".join(parts[:-1]) if parts else "Unknown"
+
+                all_ratios[name] = float(val)
+            return all_ratios
